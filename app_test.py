@@ -6,6 +6,15 @@ st.markdown("""
 .stApp {background: radial-gradient(circle at 50% 0%, #0b2a9e 0%, #071a6b 30%, #020a2e 65%, #000000 100%);}
 header, footer, [data-testid="stToolbar"] {display:none !important;}
 .block-container {max-width: 560px !important; padding-top: 10px !important;}
+
+/* Picture poori rahegi, sirf kinare page me mil jayenge - par nahi katenge */
+div[data-testid="stImage"] {display:flex !important; justify-content:center !important;}
+div[data-testid="stImage"] img {
+    width: 340px !important;
+    border-radius: 20px !important;
+    -webkit-mask-image: radial-gradient(ellipse at center, black 60%, transparent 98%) !important;
+    mask-image: radial-gradient(ellipse at center, black 60%, transparent 98%) !important;
+}
 div[data-testid="stTextInput"] label {color:white !important; font-weight:800 !important;}
 div[data-testid="stTextInput"] > div {background: rgba(255,255,255,0.95) !important; border:2px solid #d4af37 !important; border-radius:18px !important;}
 div[data-testid="stTextInput"] input {color:black !important; font-size:18px !important; text-align:center !important;}
@@ -17,15 +26,12 @@ div.stButton > button {
 </style>
 """, unsafe_allow_html=True)
 
-# پکچر چھوٹی کر کے بیچ میں
-c1, c2, c3 = st.columns([1, 2, 1])
-with c2:
-    if os.path.exists("eagle.png"):
-        st.image("eagle.png", use_container_width=True)
-    elif os.path.exists("eagle.jpg"):
-        st.image("eagle.jpg", use_container_width=True)
-    else:
-        st.markdown('<div style="text-align:center; font-size:110px;">🦅</div>', unsafe_allow_html=True)
+if os.path.exists("eagle.png"):
+    st.image("eagle.png")
+elif os.path.exists("eagle.jpg"):
+    st.image("eagle.jpg")
+else:
+    st.markdown('<div style="text-align:center; font-size:110px;">🦅</div>', unsafe_allow_html=True)
 
 st.markdown('<h1 style="text-align:center; color:#e8b923; font-size:58px; font-weight:900; margin:0; text-shadow:0 0 20px #ffcc00;">UQABOOT</h1>', unsafe_allow_html=True)
 st.markdown('<p style="text-align:center; color:white; font-weight:700;">PUNJAB POLICE - CDR / BTS ANALYSIS SYSTEM</p>', unsafe_allow_html=True)
