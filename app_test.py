@@ -7,13 +7,14 @@ st.markdown("""
 header, footer, [data-testid="stToolbar"] {display:none !important;}
 .block-container {max-width: 560px !important; padding-top: 10px !important;}
 
-/* Picture poori rahegi, sirf kinare page me mil jayenge - par nahi katenge */
+/* Eagle ko GOL karne wala jadu */
 div[data-testid="stImage"] {display:flex !important; justify-content:center !important;}
 div[data-testid="stImage"] img {
-    width: 340px !important;
-    border-radius: 20px !important;
-    -webkit-mask-image: radial-gradient(ellipse at center, black 60%, transparent 98%) !important;
-    mask-image: radial-gradient(ellipse at center, black 60%, transparent 98%) !important;
+    width: 210px !important; height: 210px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    border: 4px solid #e8b923 !important;
+    box-shadow: 0 0 30px #ffcc00, 0 0 60px #0b2a9e !important;
 }
 div[data-testid="stTextInput"] label {color:white !important; font-weight:800 !important;}
 div[data-testid="stTextInput"] > div {background: rgba(255,255,255,0.95) !important; border:2px solid #d4af37 !important; border-radius:18px !important;}
@@ -26,6 +27,7 @@ div.stButton > button {
 </style>
 """, unsafe_allow_html=True)
 
+# Ab eagle bilkul center me, GOL
 if os.path.exists("eagle.png"):
     st.image("eagle.png")
 elif os.path.exists("eagle.jpg"):
