@@ -59,7 +59,7 @@ if not st.session_state.logged_in:
                 else:
                     st.session_state.logged_in = True
                     st.session_state.user = u
-                    st.experimental_rerun()
+                    st.rerun()
     st.stop()
 
 # ===== ADMIN PANEL + PENDING EK LINE ME =====
@@ -73,7 +73,7 @@ if user["mobile"] == ADMIN_MOBILE:
         if st.button("Logout"):
             st.session_state.logged_in = False
             st.session_state.user = None
-            st.experimental_rerun()
+            st.rerun()
 
     with pending_right:
         pending = supabase.table("users").select("*").eq("status", "pending").execute()
@@ -85,17 +85,17 @@ if user["mobile"] == ADMIN_MOBILE:
             st.code(p['device_code'])
             if st.button(f"Approve {p['name']}", key=f"ap_{p['id']}"):
                 supabase.table("users").update({"status": "approved"}).eq("id", p['id']).execute()
-                st.experimental_rerun()
+                st.rerun()
             if st.button(f"Reject {p['name']}", key=f"rj_{p['id']}"):
                 supabase.table("users").delete().eq("id", p['id']).execute()
-                st.experimental_rerun()
+                st.rerun()
 else:
     st.write(f"User: {user['name']} | {user['mobile']}")
 
 #if st.button("Logout"):
 #   st.session_state.logged_in = False
 #   st.session_state.user = None
-#   st.experimental_rerun()
+#   st.rerun()
 
 # ===== IS LINE KE NEECHE TUMHARA WOHI PURANA DASHBOARD HAI, 10 BUTTON WALA, USKO MAT CHERNA =====
 
