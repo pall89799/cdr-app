@@ -5,29 +5,34 @@ st.markdown("""
 <style>
 .stApp {background: radial-gradient(circle at 50% 0%, #0b2a9e 0%, #071a6b 30%, #020a2e 65%, #000000 100%);}
 header, footer, [data-testid="stToolbar"] {display:none !important;}
-.block-container {max-width: 560px !important; padding-top: 10px !important;}
+.block-container {max-width: 560px !important; margin: auto !important; padding-top: 10px !important;}
 
-/* Eagle ko GOL karne wala jadu */
-div[data-testid="stImage"] {display:flex !important; justify-content:center !important;}
+div[data-testid="stImage"] {display:flex !important; justify-content:center !important; width:100% !important;}
 div[data-testid="stImage"] img {
-    width: 210px !important; height: 210px !important;
+    width: 260px !important; height: 260px !important;
     object-fit: cover !important;
     border-radius: 50% !important;
     border: 4px solid #e8b923 !important;
-    box-shadow: 0 0 30px #ffcc00, 0 0 60px #0b2a9e !important;
+    box-shadow: 0 0 30px #ffcc00 !important;
+    margin: auto !important;
 }
 div[data-testid="stTextInput"] label {color:white !important; font-weight:800 !important;}
 div[data-testid="stTextInput"] > div {background: rgba(255,255,255,0.95) !important; border:2px solid #d4af37 !important; border-radius:18px !important;}
 div[data-testid="stTextInput"] input {color:black !important; font-size:18px !important; text-align:center !important;}
+
+/* LOGIN BUTTON - Picture jaisa */
+div.stButton {display:flex !important; justify-content:center !important;}
 div.stButton > button {
-    width:100% !important; height:65px !important; border-radius:50px !important;
-    background: linear-gradient(90deg, #6b3a00, #e8b923, #6b3a00) !important;
-    color:white !important; font-size:26px !important; font-weight:900 !important; letter-spacing:4px !important;
+    width: 340px !important; height: 78px !important; border-radius: 50px !important;
+    background: linear-gradient(90deg, #5a1a00, #8b2a00, #b33a00, #8b2a00, #5a1a00) !important;
+    color:white !important; font-size:30px !important; font-weight:900 !important; letter-spacing:6px !important;
+    border: 4px solid #e8b923 !important;
+    box-shadow: 0 0 25px #ffcc00, 0 5px 15px rgba(0,0,0,0.5) !important;
 }
+div.stButton > button:hover {transform: scale(1.05) !important; box-shadow: 0 0 40px #ffcc00 !important;}
 </style>
 """, unsafe_allow_html=True)
 
-# Ab eagle bilkul center me, GOL
 if os.path.exists("eagle.png"):
     st.image("eagle.png")
 elif os.path.exists("eagle.jpg"):
