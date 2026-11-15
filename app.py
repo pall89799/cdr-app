@@ -1,22 +1,105 @@
 import streamlit as st
-st.set_page_config(page_title="Muhammad Saleem Qureshi - BTS Analyser", layout="wide")
-# ===== PASSWORD LOCK =====
-PASSWORD = "punjab123"
+st.set_page_config(page_title="BTS Analyser", layout="wide")
 
-if "login" not in st.session_state:
-    st.session_state.login = False
+from supabase import create_client
+import random
+import hashlib
 
-if not st.session_state.login:
-    st.title("🔒 CDR Analyzer - Police Use Only")
-    password = st.text_input("Password Dalain", type="password")
-    if st.button("Login"):
-        if password == PASSWORD:
-            st.session_state.login = True
-            st.experimental_rerun()
-        else:
-            st.error("Ghalat Password hai!")
+SUPABASE_URL = "https://qctbnewntgzeagfdafgx.supabase.co"
+SUPABASE_KEY = "sb_publishable_JvfMI_5erJ88oNY8Lvi1cw_30WNW4xx"
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+ADMIN_MOBILE = "03000508387"
+
+def hash_pass(p):
+    return hashlib.sha256(p.encode()).hexdigest()
+
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+    st.session_state.user = None
+
+# ===== SIRF LOGIN + SIGNUP + APPROVAL, BAS =====
+if not st.session_state.logged_in:
+    st.title("🔐 CDR-BTS Login")
+    tab1, tab2 = st.tabs(["Signup", "Login"])
+    with tab1:
+        name = st.text_input("Pura Naam", key="s_name")
+        mobile = st.text_input("Mobile Number", key="s_mobile")
+        cnic = st.text_input("CNIC Number", key="s_cnic")
+        password = st.text_input("Password Banao", type="password", key="s_pass")
+        if st.button("Account Banao"):
+            if not name or not mobile or not cnic or not password:
+                st.error("Sab khane bharo jan")
+            else:
+                old = supabase.table("users").select("*").eq("mobile", mobile).execute()
+                if old.data:
+                    st.error("Is mobile se pehle se account bana hua hai")
+                else:
+                    device_code = f"D-{random.randint(100000,999999)}"
+                    supabase.table("users").insert({
+                        "name": name, "mobile": mobile, "cnic": cnic,
+                        "password": hash_pass(password),
+                        "device_code": device_code, "status": "pending"
+                    }).execute()
+                    st.success("Account ban gaya! Code Admin ko bhejo")
+                    st.code(device_code)
+    with tab2:
+        l_mobile = st.text_input("Mobile Number", key="l_mobile")
+        l_pass = st.text_input("Password", type="password", key="l_pass")
+        if st.button("Login"):
+            res = supabase.table("users").select("*").eq("mobile", l_mobile).execute()
+            if not res.data:
+                st.error("Account nahi hai, pehle Signup karo")
+            else:
+                u = res.data[0]
+                if u["password"] != hash_pass(l_pass):
+                    st.error("Password ghalat hai")
+                elif u["status"] != "approved":
+                    st.error(f"Pending hai. Code {u['device_code']} Admin ko bhejo")
+                else:
+                    st.session_state.logged_in = True
+                    st.session_state.user = u
+                    st.experimental_rerun()
     st.stop()
-# ===== LOCK KHATAM =====
+
+# ===== ADMIN PANEL + PENDING EK LINE ME =====
+user = st.session_state.user
+if user["mobile"] == ADMIN_MOBILE:
+    admin_left, pending_right = st.columns([1, 1.8])
+
+    with admin_left:
+        st.markdown("### 👑 ADMIN PANEL")
+        st.write(f"Admin: {user['name']}")
+        if st.button("Logout"):
+            st.session_state.logged_in = False
+            st.session_state.user = None
+            st.experimental_rerun()
+
+    with pending_right:
+        pending = supabase.table("users").select("*").eq("status", "pending").execute()
+        st.subheader("Pending Requests")
+        if not pending.data:
+            st.success("Koi pending nahi hai")
+        for p in pending.data:
+            st.subheader(f"**{p['name']}** | {p['mobile']}")
+            st.code(p['device_code'])
+            if st.button(f"Approve {p['name']}", key=f"ap_{p['id']}"):
+                supabase.table("users").update({"status": "approved"}).eq("id", p['id']).execute()
+                st.experimental_rerun()
+            if st.button(f"Reject {p['name']}", key=f"rj_{p['id']}"):
+                supabase.table("users").delete().eq("id", p['id']).execute()
+                st.experimental_rerun()
+else:
+    st.write(f"User: {user['name']} | {user['mobile']}")
+
+#if st.button("Logout"):
+#   st.session_state.logged_in = False
+#   st.session_state.user = None
+#   st.experimental_rerun()
+
+# ===== IS LINE KE NEECHE TUMHARA WOHI PURANA DASHBOARD HAI, 10 BUTTON WALA, USKO MAT CHERNA =====
+
+# --- YAHAN SE TUMHARA PURANA CODE SHURU ---
 import pandas as pd
 import io
 import base64
