@@ -315,8 +315,8 @@ def parse_zong_df(df):
     imei_2 = df["CLG_IMEI"].astype(str).str.strip() if "CLG_IMEI" in df.columns else ""
     merged_imei=[]
     for a,b in zip(imei_1, imei_2):
-        if a!="" and a.lower()!="nan": merged_imei.append(a)
-        elif b!="" and b.lower()!="nan": merged_imei.append(b)
+        if str(a).strip() != "" and str(a).lower() != "nan": merged_imei.append(str(a).strip())
+        elif str(b).strip() != "" and str(b).lower() != "nan": merged_imei.append(str(b).strip())
         else: merged_imei.append("")
     final["IMEI"]=merged_imei; final["LAC"]=df["LAC_ID"]; final["Cell ID"]=df["CELL_ID"]; final["Network"]="ZONG"; final["_dt"]=dt
     return final
