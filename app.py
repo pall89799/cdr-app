@@ -243,7 +243,10 @@ def parse_ufone_df(df):
 
 def parse_jazz_df(df):
     df.columns = [c.strip() for c in df.columns]
+    raw = pd.to_numeric(df["Date And Time"], errors="coerce")
     dt = pd.to_datetime(df["Date And Time"], errors="coerce")
+    mask = dt.isna() & raw.notna()
+    dt.loc[mask] = pd.to_datetime(raw[mask], origin="1899-12-30", unit="D")
     def jazz_lac_cell(cell_val):
         s = str(cell_val).strip()
         lac_hex = s[:4][::-1]; cell_hex = s[4:8][::-1]
