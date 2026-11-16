@@ -27,13 +27,13 @@ if not st.session_state.logged_in:
         mobile = st.text_input("Mobile Number", key="s_mobile")
         cnic = st.text_input("CNIC Number", key="s_cnic")
         password = st.text_input("Password Banao", type="password", key="s_pass")
-        if st.button("Account Banao"):
+        if st.button("Create Account First"):
             if not name or not mobile or not cnic or not password:
-                st.error("Sab khane bharo jan")
+                st.error("Fill all fields")
             else:
                 old = supabase.table("users").select("*").eq("mobile", mobile).execute()
                 if old.data:
-                    st.error("Is mobile se pehle se account bana hua hai")
+                    st.error("Account already exists")
                 else:
                     device_code = f"D-{random.randint(100000,999999)}"
                     supabase.table("users").insert({
@@ -41,7 +41,7 @@ if not st.session_state.logged_in:
                         "password": hash_pass(password),
                         "device_code": device_code, "status": "pending"
                     }).execute()
-                    st.success("Account ban gaya! Code Admin ko bhejo")
+                    st.success("Account created! Send code to Admin")
                     st.code(device_code)
     with tab2:
         l_mobile = st.text_input("Mobile Number", key="l_mobile")
@@ -49,13 +49,13 @@ if not st.session_state.logged_in:
         if st.button("Login"):
             res = supabase.table("users").select("*").eq("mobile", l_mobile).execute()
             if not res.data:
-                st.error("Account nahi hai, pehle Signup karo")
+                st.error("No account, Signup first")
             else:
                 u = res.data[0]
                 if u["password"] != hash_pass(l_pass):
-                    st.error("Password ghalat hai")
-                elif u["status"] != "approved":
-                    st.error(f"Pending hai. Code {u['device_code']} Admin ko bhejo")
+                    st.error("Wrong Password")
+                elif u["status"] != "Approved":
+                    st.error(f"Pending hai. Code {u['device_code']} Send to Admin")
                 else:
                     st.session_state.logged_in = True
                     st.session_state.user = u
@@ -79,7 +79,7 @@ if user["mobile"] == ADMIN_MOBILE:
         pending = supabase.table("users").select("*").eq("status", "pending").execute()
         st.subheader("Pending Requests")
         if not pending.data:
-            st.success("Koi pending nahi hai")
+            st.success("No pending")
         for p in pending.data:
             st.subheader(f"**{p['name']}** | {p['mobile']}")
             st.code(p['device_code'])
