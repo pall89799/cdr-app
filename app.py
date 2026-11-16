@@ -54,7 +54,7 @@ if not st.session_state.logged_in:
                 u = res.data[0]
                 if u["password"] != hash_pass(l_pass):
                     st.error("Wrong Password")
-                elif u["status"] != "Approved":
+                elif u["status"] != "Approved" and l_mobile != ADMIN_MOBILE:
                     st.error(f"Pending hai. Code {u['device_code']} Send to Admin")
                 else:
                     st.session_state.logged_in = True
