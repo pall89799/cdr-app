@@ -774,8 +774,8 @@ with tab4:
             final["Duration"]=pd.to_numeric(df["DRTN"], errors="coerce").fillna(0).astype(int)
         imei_1=df["CLD_IMIE"].astype(str).str.strip() if "CLD_IMIE" in df.columns else ""; imei_2=df["CLG_IMEI"].astype(str).str.strip() if "CLG_IMEI" in df.columns else ""; merged_imei=[]
         for a,b in zip(imei_1, imei_2):
-            if a!="" and a.lower()!="nan": merged_imei.append(a)
-            elif b!="" and b.lower()!="nan": merged_imei.append(b)
+            if str(a).strip() != "" and str(a).lower() != "nan": merged_imei.append(str(a).strip())
+            elif str(b).strip() != "" and str(b).lower() != "nan": merged_imei.append(str(b).strip())
             else: merged_imei.append("")
         final["IMEI"]=merged_imei; final["LAC"]=df["LAC_ID"]; final["Cell ID"]=df["CELL_ID"]; final["Network"]="ZONG"; final=add_extra_columns(final, dt)
         st.success(f"Ho gaya! {len(uploaded_zong)} files, Total {len(final)} calls, {final['A Party'].nunique()} alag numbers")
