@@ -4,8 +4,8 @@ st.set_page_config(page_title="BTS Analyser", layout="wide")
 st.markdown("""
 <style>
 div[data-testid="stButton"] > button {
-    background-color: #FFD700 !important;
-    color: black !important;
+    background: linear-gradient(90deg, #0B3D91, #1E6FDB) !important;
+    color: white !important;
     border-radius: 10px !important;
     font-weight: bold !important;
     border: none !important;
