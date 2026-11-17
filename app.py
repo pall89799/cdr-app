@@ -548,7 +548,7 @@ def build_cdr_ufone_output(raw_df):
             "Last Call": g["_dt"].max().strftime("%Y-%m-%d") if pd.notna(g["_dt"].max()) else "",
             "Total Days": int(g["Date"].nunique()),
         })
-    summary = pd.DataFrame(summ_rows).sort_values("Total", ascending=False) if summ_rows else pd.DataFrame(columns=["A","B","IC","ISMS","OG","OSMS","Total","IC (Minutes)","OG (Minutes)","Total Minutes","First Call","Last Call","Total Days"])
+    summary = pd.DataFrame(summ_rows).sort_values("Total", ascending=False) if summ_rows else pd.DataFrame(columns=["A","B","IC","ISMS","OG","OSMS","Total","IC (Seconds)","OG (Seconds)","Total Seconds","First Call","Last Call","Total Days"])
     loc_base = df[df["Call Type"] != "DATA"].copy()
     loc_rows = []
     for loc, g in loc_base.groupby("Location"):
@@ -736,14 +736,14 @@ def build_cdr_jazz_output(raw_df):
             "OG": int((g["Call Type"]=="OG").sum()),
             "OSMS": int((g["Call Type"]=="OSMS").sum()),
             "Total": len(g),
-            "IC (Minutes)": round(g.loc[g["Call Type"]=="IC","_dur_min"].sum(), 2),
-            "OG (Minutes)": round(g.loc[g["Call Type"]=="OG","_dur_min"].sum(), 2),
-            "Total Minutes": round(g["_dur_min"].sum(), 2),
+            "IC (Seconds)": round(g.loc[g["Call Type"]=="IC","_dur_min"].sum(), 2),
+            "OG (Seconds)": round(g.loc[g["Call Type"]=="OG","_dur_min"].sum(), 2),
+            "Total Seconds": round(g["_dur_min"].sum(), 2),
             "First Call": g["_dt"].min().strftime("%Y-%m-%d") if pd.notna(g["_dt"].min()) else "",
             "Last Call": g["_dt"].max().strftime("%Y-%m-%d") if pd.notna(g["_dt"].max()) else "",
             "Total Days": int(g["Date"].nunique()),
         })
-    summary = pd.DataFrame(summ_rows).sort_values("Total", ascending=False) if summ_rows else pd.DataFrame(columns=["A","B","IC","ISMS","OG","OSMS","Total","IC (Minutes)","OG (Minutes)","Total Minutes","First Call","Last Call","Total Days"])
+    summary = pd.DataFrame(summ_rows).sort_values("Total", ascending=False) if summ_rows else pd.DataFrame(columns=["A","B","IC","ISMS","OG","OSMS","Total","IC (Seconds)","OG (Seconds)","Total Seconds","First Call","Last Call","Total Days"])
     # Location Summary - DATA column nahi
     loc_base = df[df["Call Type"] != "DATA"].copy()
     loc_rows = []
@@ -1106,8 +1106,8 @@ def build_cdr_telenor_output(raw_df):
     base = df[df["Call Type"] != "DATA"].copy()
     sr = []
     for (a,b), g in base.groupby(["A Party","B Party"]):
-        sr.append({"A": a, "B": b, "IC": int((g["Call Type"]=="IC").sum()), "ISMS": int((g["Call Type"]=="ISMS").sum()), "OG": int((g["Call Type"]=="OG").sum()), "OSMS": int((g["Call Type"]=="OSMS").sum()), "Total": len(g), "IC (Minutes)": round(g.loc[g["Call Type"]=="IC","_dur_min"].sum(), 2), "OG (Minutes)": round(g.loc[g["Call Type"]=="OG","_dur_min"].sum(), 2), "Total Minutes": round(g["_dur_min"].sum(), 2), "First Call": g["_dt"].min().strftime("%Y-%m-%d") if pd.notna(g["_dt"].min()) else "", "Last Call": g["_dt"].max().strftime("%Y-%m-%d") if pd.notna(g["_dt"].max()) else "", "Total Days": int(g["Date"].nunique())})
-    summary = pd.DataFrame(sr).sort_values("Total", ascending=False) if sr else pd.DataFrame(columns=["A","B","IC","ISMS","OG","OSMS","Total","IC (Minutes)","OG (Minutes)","Total Minutes","First Call","Last Call","Total Days"])
+        sr.append({"A": a, "B": b, "IC": int((g["Call Type"]=="IC").sum()), "ISMS": int((g["Call Type"]=="ISMS").sum()), "OG": int((g["Call Type"]=="OG").sum()), "OSMS": int((g["Call Type"]=="OSMS").sum()), "Total": len(g), "IC (Seconds)": round(g.loc[g["Call Type"]=="IC","_dur_min"].sum(), 2), "OG (Seconds)": round(g.loc[g["Call Type"]=="OG","_dur_min"].sum(), 2), "Total Seconds": round(g["_dur_min"].sum(), 2), "First Call": g["_dt"].min().strftime("%Y-%m-%d") if pd.notna(g["_dt"].min()) else "", "Last Call": g["_dt"].max().strftime("%Y-%m-%d") if pd.notna(g["_dt"].max()) else "", "Total Days": int(g["Date"].nunique())})
+    summary = pd.DataFrame(sr).sort_values("Total", ascending=False) if sr else pd.DataFrame(columns=["A","B","IC","ISMS","OG","OSMS","Total","IC (Seconds)","OG (Seconds)","Total Seconds","First Call","Last Call","Total Days"])
     lr = []
     for loc, g in base.groupby("Location"):
         lr.append({"Location": loc, "IC": int((g["Call Type"]=="IC").sum()), "ISMS": int((g["Call Type"]=="ISMS").sum()), "OG": int((g["Call Type"]=="OG").sum()), "OSMS": int((g["Call Type"]=="OSMS").sum()), "Total": len(g), "First Call": g["_dt"].min().strftime("%Y-%m-%d") if pd.notna(g["_dt"].min()) else "", "Last Call": g["_dt"].max().strftime("%Y-%m-%d") if pd.notna(g["_dt"].max()) else "", "T_Locations": int(g["Location"].nunique()), "T_Days": int(g["Date"].nunique())})
@@ -1288,8 +1288,8 @@ def build_cdr_zong_output(raw_df):
     base = df[df["Call Type"] != "DATA"].copy()
     sr = []
     for (a,b), g in base.groupby(["A Party","B Party"]):
-        sr.append({"A": a, "B": b, "IC": int((g["Call Type"]=="IC").sum()), "ISMS": int((g["Call Type"]=="ISMS").sum()), "OG": int((g["Call Type"]=="OG").sum()), "OSMS": int((g["Call Type"]=="OSMS").sum()), "Total": len(g), "IC (Minutes)": round(g.loc[g["Call Type"]=="IC","_dur_min"].sum(), 2), "OG (Minutes)": round(g.loc[g["Call Type"]=="OG","_dur_min"].sum(), 2), "Total Minutes": round(g["_dur_min"].sum(), 2), "First Call": g["_dt"].min().strftime("%Y-%m-%d") if pd.notna(g["_dt"].min()) else "", "Last Call": g["_dt"].max().strftime("%Y-%m-%d") if pd.notna(g["_dt"].max()) else "", "Total Days": int(g["Date"].nunique())})
-    summary = pd.DataFrame(sr).sort_values("Total", ascending=False) if sr else pd.DataFrame(columns=["A","B","IC","ISMS","OG","OSMS","Total","IC (Minutes)","OG (Minutes)","Total Minutes","First Call","Last Call","Total Days"])
+        sr.append({"A": a, "B": b, "IC": int((g["Call Type"]=="IC").sum()), "ISMS": int((g["Call Type"]=="ISMS").sum()), "OG": int((g["Call Type"]=="OG").sum()), "OSMS": int((g["Call Type"]=="OSMS").sum()), "Total": len(g), "IC (Seconds)": round(g.loc[g["Call Type"]=="IC","_dur_min"].sum(), 2), "OG (Seconds)": round(g.loc[g["Call Type"]=="OG","_dur_min"].sum(), 2), "Total Seconds": round(g["_dur_min"].sum(), 2), "First Call": g["_dt"].min().strftime("%Y-%m-%d") if pd.notna(g["_dt"].min()) else "", "Last Call": g["_dt"].max().strftime("%Y-%m-%d") if pd.notna(g["_dt"].max()) else "", "Total Days": int(g["Date"].nunique())})
+    summary = pd.DataFrame(sr).sort_values("Total", ascending=False) if sr else pd.DataFrame(columns=["A","B","IC","ISMS","OG","OSMS","Total","IC (Seconds)","OG (Seconds)","Total Seconds","First Call","Last Call","Total Days"])
     # Location Summary - DATA nahi
     lr = []
     for loc, g in base.groupby("Location"):
