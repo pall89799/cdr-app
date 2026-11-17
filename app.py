@@ -46,7 +46,16 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
     box-shadow: 0px 4px 12px rgba(0,0,0,0.25) !important;
     transform: scale(1.05) !important;
 }}
-
+div[data-testid="stButton"] button[kind="primary"] {
+  background: #1a73e8 !important;
+  color: white !important;
+  border: 1px solid #1a73e8 !important;
+}
+div[data-testid="stButton"] button[kind="secondary"] {
+  background: #ff7a00 !important;
+  color: white !important;
+  border: 1px solid #ff7a00 !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
