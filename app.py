@@ -78,7 +78,7 @@ with tab2:
                     st.session_state.logged_in = True
                     st.session_state.user = u
                     st.rerun()
-    st.stop()
+st.stop()
 
 # ===== ADMIN PANEL + PENDING EK LINE ME =====
 user = st.session_state.user
