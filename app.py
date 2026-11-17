@@ -244,16 +244,36 @@ class _HideTab:
             return False
 
 if st.session_state.mode == "BTS":
-    _names = ["📡 UFONE", "📡 JAZZ", "📡 TELENOR", "📡 ZONG", "📡 ALL BTS"]
+    _names = ["📱 UFONE", "📱 JAZZ", "📱 TELENOR", "📱 ZONG", "📱 ALL BTS"]
 else:
     _names = ["📞 CDR UFONE", "📞 CDR JAZZ", "📞 CDR TELENOR", "📞 CDR ZONG", "📞 ALL CDR"]
-_raw = st.tabs(_names)
-if st.session_state.mode == "BTS":
-    tab1, tab2, tab3, tab4, tab5 = [_HideTab(_raw[i], True) for i in range(5)]
-    tab6, tab7, tab8, tab9, tab10 = [_HideTab(_raw[0], False) for i in range(5)]
-else:
-    tab1, tab2, tab3, tab4, tab5 = [_HideTab(_raw[0], False) for i in range(5)]
-    tab6, tab7, tab8, tab9, tab10 = [_HideTab(_raw[i], True) for i in range(5)]
+
+if "sub_idx" not in st.session_state:
+    st.session_state.sub_idx = 0
+
+btn_bg = "#1E6BFF" if st.session_state.mode == "CDR" else "#FF7A00"
+
+cols = st.columns(5)
+for i, name in enumerate(_names):
+    with cols[i]:
+        if st.button(name, key=f"sub_{st.session_state.mode}_{i}", use_container_width=True):
+            st.session_state.sub_idx = i
+            st.rerun()
+
+st.markdown(f"""
+<style>
+div[data-testid="stHorizontalBlock"] div[data-testid="stButton"] > button {{
+    background: {btn_bg} !important;
+    color: white !important;
+    border-radius: 12px !important;
+    font-weight: bold !important;
+    border: none !important;
+    padding: 10px 5px !important;
+}}
+</style>
+""", unsafe_allow_html=True)
+
+selected_tab = st.session_state.sub_idx
 def clean_number(num):
     s = str(num).strip()
     if s == "" or s.lower() == "nan":
@@ -768,7 +788,7 @@ def build_cdr_jazz_output(raw_df):
     return raw, cdr_data, summary, loc_sum, imei_sum, night_sum
 
 # ==================== TAB 1 - UFONE BTS - .txt ====================
-with tab1:
+if selected_tab == 0 and st.session_state.mode == "BTS":
     st.subheader("Ufone - .txt files")
     uploaded_files = st.file_uploader("Ufone ki .txt files yahan dalo", type=["txt"], accept_multiple_files=True, key="ufone")
     if uploaded_files:
@@ -783,7 +803,7 @@ with tab1:
         download_section(final, "Ufone_Cleaned.xlsx")
 
 # ==================== TAB 2 - JAZZ BTS ====================
-with tab2:
+if selected_tab == 1 and st.session_state.mode == "BTS":
     st.subheader("Jazz - .xlsx files")
     st.info("Jazz - LAC / Cell ID wala ulta formula laga hua hai")
     uploaded_jazz = st.file_uploader("Jazz ki .xlsx files yahan dalo", type=["xlsx","xls"], accept_multiple_files=True, key="jazz")
@@ -807,7 +827,7 @@ with tab2:
         download_section(final, "Jazz_Cleaned.xlsx")
 
 # ==================== TAB 3 - TELENOR BTS ====================
-with tab3:
+if selected_tab == 2 and st.session_state.mode == "BTS":
     st.subheader("Telenor - .csv files")
     st.info("Incoming + Outgoing dono files ek saath yahan dalo")
     uploaded_telenor = st.file_uploader("Telenor ki Incoming + Outgoing .csv files yahan dalo", type=["csv"], accept_multiple_files=True, key="telenor")
@@ -830,7 +850,7 @@ with tab3:
         download_section(final, "Telenor_Cleaned.xlsx")
 
 # ==================== TAB 4 - ZONG BTS ====================
-with tab4:
+if selected_tab == 3 and st.session_state.mode == "BTS":
     st.subheader("Zong - .xlsx files")
     uploaded_zong = st.file_uploader("Zong ki .xlsx files yahan dalo", type=["xlsx","xls"], accept_multiple_files=True, key="zong")
     if uploaded_zong:
@@ -861,7 +881,7 @@ with tab4:
         download_section(final, "Zong_Cleaned.xlsx")
 
 # ==================== TAB 5 - ALL BTS ====================
-with tab5:
+if selected_tab == 4 and st.session_state.mode == "BTS":
     st.subheader("All BTS - Sab Networks Ek Saath")
     st.info("Ufone + Jazz + Telenor + Zong ki saari files ek saath dalo")
     c1,c2,c3,c4=st.columns(4)
@@ -896,7 +916,7 @@ with tab5:
                 dt_all=merged["_dt"]; final=merged.drop(columns=["_dt"]); final=add_extra_columns(final, dt_all); st.dataframe(final.groupby("Network").agg(Total_Calls=("Call Type","count")).reset_index()); download_section(final, "All_BTS_Merged.xlsx")
 
 # ================= TAB 6 - CDR UFONE - LOCK - NA CHHERNA =================
-with tab6:
+if selected_tab == 0 and st.session_state.mode == "CDR":
     st.subheader("CDR - Ufone - Standardized")
     st.info("Ufone CDR Raw - .xlsx / .csv - Call Type = Type + Direction. A/B se 92 aur 0 hata. Raw Data pehli sheet me mehfooz rahega. Addresses sheet nahi hogi.")
     up = st.file_uploader("Ufone CDR Raw dalo - .xlsx / .csv", type=["xlsx","xls","csv"], accept_multiple_files=True, key="cdr_ufone")
@@ -928,7 +948,7 @@ with tab6:
             st.write("**Night Stay (02:00 - 08:00) - First Call / Last Call / Total Locations**"); st.dataframe(night_sum)
 
 # ================= TAB 7 - CDR JAZZ - NAYA - UFONE JAISA =================
-with tab7:
+if selected_tab == 1 and st.session_state.mode == "CDR":
     st.subheader("CDR - Jazz - Standardized")
     st.info("Jazz CDR Raw - .xlsx / .csv - BParty Hex decode, cellid ulta formula, SiteLocation se Location / LAT / LNG. Baaki sheets Ufone jaisi hi.")
     upj = st.file_uploader("Jazz CDR Raw dalo - .xlsx / .csv", type=["xlsx","xls","csv"], accept_multiple_files=True, key="cdr_jazz")
@@ -1103,7 +1123,7 @@ def build_cdr_telenor_output(raw_df):
     return raw, cdr_data, summary, loc_sum, imei_sum, night_sum
 
 # ===== TAB 8 - CDR TELENOR =====
-with tab8:
+if selected_tab == 2 and st.session_state.mode == "CDR":
     st.subheader("CDR - Telenor - Standardized")
     st.info("Telenor CDR - INCOMING me Bparty = B column, OUTGOING me Bparty = C column. Call Type = H + O. LAC = Lac_Id, CID = Site_Id.")
     up = st.file_uploader("Telenor CDR dalo - .csv / .xlsx", type=["csv","xlsx","xls"], accept_multiple_files=True, key="cdr_telenor")
@@ -1288,7 +1308,7 @@ def build_cdr_zong_output(raw_df):
     return raw, cdr_data, summary, loc_sum, imei_sum, night_sum
 
 # ===== TAB 9 - CDR ZONG =====
-with tab9:
+if selected_tab == 3 and st.session_state.mode == "CDR":
     st.subheader("CDR - Zong - Standardized")
     st.info("Zong CDR - Upar 3 rows Number / Naam / CNIC wali, phir headers. LAC / CID as it is, Duration = MINS*60+SECS.")
     up = st.file_uploader("Zong CDR Raw dalo - .xlsx / .csv", type=["xlsx","xls","csv"], accept_multiple_files=True, key="cdr_zong")
@@ -1335,7 +1355,7 @@ with tab9:
 # 12 Columns - Call Type | A Party | B Party | Date | Time | Duration | IMEI | LAC | CID | Location | LAT | LNG
 # No NETWORK Column, Sirf CDR Code, BTS Wala Kuch Nahi
 
-with tab10:
+if selected_tab == 4 and st.session_state.mode == "CDR":
     st.subheader("📞 ALL CDR - Master File - 5 Sheets")
     st.info("Ufone + Jazz + Telenor + Zong CDR ek sath dalo - Master File 5 Sheets me banegi.")
 
