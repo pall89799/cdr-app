@@ -37,10 +37,10 @@ if not st.session_state.logged_in:
         color: black !important;
     }
     </style>
-    """, unsafe_allow_html=True)
-    st.markdown("<h1 style='text-align:center; color:#FFD700;'>🦅 EAGLE CDR ANALYZER</h1>", unsafe_allow_html=True)
-    tab1, tab2 = st.tabs(["Signup", "Login"])
-    with tab1:
+""", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align:center; color:#FFD700;'>🦅 EAGLE CDR ANALYZER</h1>", unsafe_allow_html=True)
+tab1, tab2 = st.tabs(["Signup", "Login"])
+with tab1:
         name = st.text_input("Full Name", key="s_name")
         mobile = st.text_input("Mobile Number", key="s_mobile")
         cnic = st.text_input("CNIC Number", key="s_cnic")
