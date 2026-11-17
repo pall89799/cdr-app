@@ -1,6 +1,19 @@
 import streamlit as st
 st.set_page_config(page_title="BTS Analyser", layout="wide")
 
+st.markdown("""
+<style>
+div[data-testid="stButton"] > button {
+    background-color: #FFD700 !important;
+    color: black !important;
+    border-radius: 10px !important;
+    font-weight: bold !important;
+    border: none !important;
+    padding: 10px 20px !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 from supabase import create_client
 import random
 import hashlib
