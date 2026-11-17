@@ -191,7 +191,25 @@ st.markdown("""
 st.write("---")
 st.write("Ufone / Jazz / Telenor / Zong - Tab select karo, file dalo, Cleaned Excel download karo")
 
-# ===== 10 TABS - 5 BTS + 5 CDR =====
+if "mode" not in st.session_state:
+    st.session_state.mode = "BTS"
+c1, c2 = st.columns(2)
+with c1:
+    if st.button("📡 BTS ANALYSER", use_container_width=True):
+        st.session_state.mode = "BTS"
+        st.rerun()
+with c2:
+    if st.button("📞 CDR ANALYSER", use_container_width=True):
+        st.session_state.mode = "CDR"
+        st.rerun()
+if st.session_state.mode == "BTS":
+    hide = "6,7,8,9,10"
+else:
+    hide = "1,2,3,4,5"
+css = ""
+for n in hide.split(","):
+    css += f'div[data-testid="stTabs"] button:nth-child({n}) {{display:none !important;}} '
+st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs(["📡 UFONE", "📡 JAZZ", "📡 TELENOR", "📡 ZONG", "📡 ALL BTS", "📞 CDR UFONE", "📞 CDR JAZZ", "📞 CDR TELENOR", "📞 CDR ZONG", "📞 ALL CDR"])
 
 def clean_number(num):
