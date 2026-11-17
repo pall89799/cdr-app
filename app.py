@@ -247,7 +247,7 @@ def parse_jazz_df(df):
     dt_text = pd.to_datetime(df["Date And Time"], errors="coerce")
     dt_num = pd.to_datetime(raw, origin="1899-12-30", unit="D", errors="coerce")
     is_num = df["Date And Time"].apply(lambda x: isinstance(x, (int, float)))
-    dt = pd.to_datetime(np.where(is_num, dt_num, dt_text))
+    dt = dt_num.where(is_num, dt_text)
     def jazz_lac_cell(cell_val):
         s = str(cell_val).strip()
         lac_hex = s[:4][::-1]; cell_hex = s[4:8][::-1]
