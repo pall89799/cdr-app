@@ -101,7 +101,7 @@ if user["mobile"] == ADMIN_MOBILE:
                     supabase.table("users").update({"status": "approved"}).eq("id", p['id']).execute()
                     st.rerun()
             with c2:
-                if st.button(f"Reject {p['name']}", key=f"rj_{p['id']}"):, type="primary"
+                if st.button(f"Reject {p['name']}", key=f"rj_{p['id']}", type="primary"):
                     supabase.table("users").delete().eq("id", p['id']).execute()
                     st.rerun()
 else:
