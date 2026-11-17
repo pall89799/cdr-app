@@ -189,12 +189,36 @@ with c2:
     if st.button("📞 CDR ANALYSER", use_container_width=True):
         st.session_state.mode = "CDR"
         st.rerun()
-if st.session_state.mode == "BTS":
-    st.markdown("""<style>div[data-testid="stTabs"] div[role="tablist"] button:nth-child(n+6){display:none !important;}</style>""", unsafe_allow_html=True)
-else:
-    st.markdown("""<style>div[data-testid="stTabs"] div[role="tablist"] button:nth-child(-n+5){display:none !important;}</style>""", unsafe_allow_html=True)
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs(["📡 UFONE", "📡 JAZZ", "📡 TELENOR", "📡 ZONG", "📡 ALL BTS", "📞 CDR UFONE", "📞 CDR JAZZ", "📞 CDR TELENOR", "📞 CDR ZONG", "📞 ALL CDR"])
+class _HideTab:
+    def __init__(self, real, show):
+        self.real = real
+        self.show = show
+        self.ph = None
+    def __enter__(self):
+        if self.show:
+            return self.real.__enter__()
+        else:
+            self.ph = st.empty()
+            return self.ph.__enter__()
+    def __exit__(self, *a):
+        if self.show:
+            return self.real.__exit__(*a)
+        else:
+            self.ph.__exit__(*a)
+            self.ph.empty()
+            return False
 
+if st.session_state.mode == "BTS":
+    _names = ["📡 UFONE", "📡 JAZZ", "📡 TELENOR", "📡 ZONG", "📡 ALL BTS"]
+else:
+    _names = ["📞 CDR UFONE", "📞 CDR JAZZ", "📞 CDR TELENOR", "📞 CDR ZONG", "📞 ALL CDR"]
+_raw = st.tabs(_names)
+if st.session_state.mode == "BTS":
+    tab1, tab2, tab3, tab4, tab5 = [_HideTab(_raw[i], True) for i in range(5)]
+    tab6, tab7, tab8, tab9, tab10 = [_HideTab(_raw[0], False) for i in range(5)]
+else:
+    tab1, tab2, tab3, tab4, tab5 = [_HideTab(_raw[0], False) for i in range(5)]
+    tab6, tab7, tab8, tab9, tab10 = [_HideTab(_raw[i], True) for i in range(5)]
 def clean_number(num):
     s = str(num).strip()
     if s == "" or s.lower() == "nan":
