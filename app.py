@@ -174,20 +174,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ===== 2. NEELI PATTI - HEADER + MONOGRAM =====
-st.markdown("""
-<div style="display: flex; border-radius: 12px; overflow: hidden;">
-    <div style="flex: 1; background: #1A6AC4; padding: 20px; text-align: center; color: white;">
-        <div style="font-size: 38px;">🛰️</div>
-        <div style="font-size: 26px; font-weight: 800;">BTS ANALYSER</div>
-    </div>
-    <div style="flex: 1; background: #2E86C1; padding: 20px; text-align: center; color: white;">
-        <div style="font-size: 38px;">📞</div>
-        <div style="font-size: 26px; font-weight: 800;">CDR ANALYSER</div>
-    </div>
-</div>
-<div style="text-align: center; color: #0B2C4A; font-size: 16px; font-weight: 600; margin-top: 8px;">CDR • BTS • All Networks Portal | Jazz • Zong • Telenor • Ufone</div>
-""", unsafe_allow_html=True)
+
 st.write("---")
 st.write("Ufone / Jazz / Telenor / Zong - Tab select karo, file dalo, Cleaned Excel download karo")
 
@@ -203,13 +190,9 @@ with c2:
         st.session_state.mode = "CDR"
         st.rerun()
 if st.session_state.mode == "BTS":
-    hide = "6,7,8,9,10"
+    st.markdown("""<style>div[data-testid="stTabs"] div[role="tablist"] button:nth-child(n+6){display:none !important;}</style>""", unsafe_allow_html=True)
 else:
-    hide = "1,2,3,4,5"
-css = ""
-for n in hide.split(","):
-    css += f'div[data-testid="stTabs"] button:nth-child({n}) {{display:none !important;}} '
-st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+    st.markdown("""<style>div[data-testid="stTabs"] div[role="tablist"] button:nth-child(-n+5){display:none !important;}</style>""", unsafe_allow_html=True)
 tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs(["📡 UFONE", "📡 JAZZ", "📡 TELENOR", "📡 ZONG", "📡 ALL BTS", "📞 CDR UFONE", "📞 CDR JAZZ", "📞 CDR TELENOR", "📞 CDR ZONG", "📞 ALL CDR"])
 
 def clean_number(num):
