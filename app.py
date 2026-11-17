@@ -46,13 +46,13 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
     box-shadow: 0px 4px 12px rgba(0,0,0,0.25) !important;
     transform: scale(1.05) !important;
 }}
-/* FINAL LOCK 2 - Sirf upar waly 2 */
-div[data-testid="stVerticalBlock"] > div:nth-child(2) div[data-testid="stButton"]:nth-of-type(1) button {{
+/* FINAL LOCK 3 - Sirf upar wali row */
+div[data-testid="stVerticalBlock"] > div:nth-child(2) div[data-testid="stHorizontalBlock"] > div:nth-child(1) button {{
     background: linear-gradient(90deg, #1E6BFF, #00C6FF) !important;
     color: white !important;
     border: none !important;
 }}
-div[data-testid="stVerticalBlock"] > div:nth-child(2) div[data-testid="stButton"]:nth-of-type(2) button {{
+div[data-testid="stVerticalBlock"] > div:nth-child(2) div[data-testid="stHorizontalBlock"] > div:nth-child(2) button {{
     background: linear-gradient(90deg, #FF7A00, #FFB800) !important;
     color: white !important;
     border: none !important;
