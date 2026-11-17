@@ -39,10 +39,10 @@ if not st.session_state.logged_in:
         name = st.text_input("Pura Naam", key="s_name")
         mobile = st.text_input("Mobile Number", key="s_mobile")
         cnic = st.text_input("CNIC Number", key="s_cnic")
-        password = st.text_input("Password Banao", type="password", key="s_pass")
-        if st.button("Account Banao"):
+        password = st.text_input("Password", type="password", key="s_pass")
+        if st.button("Creat Account"):
             if not name or not mobile or not cnic or not password:
-                st.error("Sab khane bharo jan")
+                st.error("Fill all Fileds")
             else:
                 old = supabase.table("users").select("*").eq("mobile", mobile).execute()
                 if old.data:
