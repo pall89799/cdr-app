@@ -42,7 +42,7 @@ st.markdown("<h1 style='text-align:center; color:#FFD700;'>🦅 EAGLE CDR ANALYZ
 tab1, tab2 = st.tabs(["Signup", "Login"])
 with tab1:
         name = st.text_input("Full Name", key="s_name")
-        mobile = st.text_input("Mobile Number", key="s_mobile")
+        mobile = st.text_input("Mobile Number", key="s_mobile").strip().replace(" ", "")
         cnic = st.text_input("CNIC Number", key="s_cnic")
         password = st.text_input("Create Password", type="password", key="s_pass")
         if st.button("Create Account First"):
@@ -62,7 +62,7 @@ with tab1:
                     st.success("Account created! Send code to Admin")
                     st.code(device_code)
 with tab2:
-        l_mobile = st.text_input("Mobile Number", key="l_mobile")
+        l_mobile = st.text_input("Mobile Number", key="l_mobile").strip().replace(" ", "")
         l_pass = st.text_input("Password", type="password", key="l_pass")
         if st.button("Login"):
             res = supabase.table("users").select("*").eq("mobile", l_mobile).execute()
