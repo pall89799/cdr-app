@@ -815,7 +815,6 @@ if selected_tab == 0 and st.session_state.mode == "BTS":
 # ==================== TAB 2 - JAZZ BTS ====================
 if selected_tab == 1 and st.session_state.mode == "BTS":
     st.subheader("Jazz - .xlsx files")
-    st.info("Jazz - LAC / Cell ID wala ulta formula laga hua hai")
     uploaded_jazz = st.file_uploader("Jazz ki .xlsx files yahan dalo", type=["xlsx","xls"], accept_multiple_files=True, key="jazz")
     if uploaded_jazz:
         all_dfs=[]
@@ -839,7 +838,6 @@ if selected_tab == 1 and st.session_state.mode == "BTS":
 # ==================== TAB 3 - TELENOR BTS ====================
 if selected_tab == 2 and st.session_state.mode == "BTS":
     st.subheader("Telenor - .csv files")
-    st.info("Incoming + Outgoing dono files ek saath yahan dalo")
     uploaded_telenor = st.file_uploader("Telenor ki Incoming + Outgoing .csv files yahan dalo", type=["csv"], accept_multiple_files=True, key="telenor")
     if uploaded_telenor:
         all_final=[]
@@ -892,8 +890,8 @@ if selected_tab == 3 and st.session_state.mode == "BTS":
 
 # ==================== TAB 5 - ALL BTS ====================
 if selected_tab == 4 and st.session_state.mode == "BTS":
-    st.subheader("All BTS - Sab Networks Ek Saath")
-    st.info("Ufone + Jazz + Telenor + Zong ki saari files ek saath dalo")
+    st.subheader("All BTS")
+    st.info("Ufone + Jazz + Telenor + Zong Upload all files together")
     c1,c2,c3,c4=st.columns(4)
     with c1: filter_date=st.date_input("Date - BTS ki aik date", value=dt_date(2026,10,22))
     with c2: start_time=st.time_input("Start Time", value=pd.to_datetime("00:00").time())
@@ -960,7 +958,7 @@ if selected_tab == 0 and st.session_state.mode == "CDR":
 # ================= TAB 7 - CDR JAZZ - NAYA - UFONE JAISA =================
 if selected_tab == 1 and st.session_state.mode == "CDR":
     st.subheader("CDR - Jazz - Standardized")
-    st.info("Jazz CDR Raw - .xlsx / .csv - BParty Hex decode, cellid ulta formula, SiteLocation se Location / LAT / LNG. Baaki sheets Ufone jaisi hi.")
+    st.info("Jazz CDR Raw - .xlsx / .csv")
     upj = st.file_uploader("Jazz CDR Raw dalo - .xlsx / .csv", type=["xlsx","xls","csv"], accept_multiple_files=True, key="cdr_jazz")
     if upj:
         raws=[]
@@ -1135,7 +1133,7 @@ def build_cdr_telenor_output(raw_df):
 # ===== TAB 8 - CDR TELENOR =====
 if selected_tab == 2 and st.session_state.mode == "CDR":
     st.subheader("CDR - Telenor - Standardized")
-    st.info("Telenor CDR - INCOMING me Bparty = B column, OUTGOING me Bparty = C column. Call Type = H + O. LAC = Lac_Id, CID = Site_Id.")
+    st.info("Telenor CDR Raw")
     up = st.file_uploader("Telenor CDR dalo - .csv / .xlsx", type=["csv","xlsx","xls"], accept_multiple_files=True, key="cdr_telenor")
     if up:
         raws = []
@@ -1320,7 +1318,7 @@ def build_cdr_zong_output(raw_df):
 # ===== TAB 9 - CDR ZONG =====
 if selected_tab == 3 and st.session_state.mode == "CDR":
     st.subheader("CDR - Zong - Standardized")
-    st.info("Zong CDR - Upar 3 rows Number / Naam / CNIC wali, phir headers. LAC / CID as it is, Duration = MINS*60+SECS.")
+    st.info("Zong CDR")
     up = st.file_uploader("Zong CDR Raw dalo - .xlsx / .csv", type=["xlsx","xls","csv"], accept_multiple_files=True, key="cdr_zong")
     if up:
         raws = []
