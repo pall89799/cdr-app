@@ -928,7 +928,7 @@ if selected_tab == 4 and st.session_state.mode == "BTS":
 # ================= TAB 6 - CDR UFONE - LOCK - NA CHHERNA =================
 if selected_tab == 0 and st.session_state.mode == "CDR":
     st.subheader("CDR - Ufone - Standardized")
-    st.info("Ufone CDR Raw - .xlsx / .csv - Call Type = Type + Direction. A/B se 92 aur 0 hata. Raw Data pehli sheet me mehfooz rahega. Addresses sheet nahi hogi.")
+    st.info("Ufone CDR Raw - .xlsx / .csv")
     up = st.file_uploader("Ufone CDR Raw dalo - .xlsx / .csv", type=["xlsx","xls","csv"], accept_multiple_files=True, key="cdr_ufone")
     if up:
         raws=[]
@@ -1367,7 +1367,7 @@ if selected_tab == 3 and st.session_state.mode == "CDR":
 
 if selected_tab == 4 and st.session_state.mode == "CDR":
     st.subheader("📞 ALL CDR - Master File - 5 Sheets")
-    st.info("Ufone + Jazz + Telenor + Zong CDR ek sath dalo - Master File 5 Sheets me banegi.")
+    st.info("Ufone + Jazz + Telenor + Zong CDR Master File - 5 Sheets in One.")
 
     all_cdr_files = st.file_uploader("All CDR Files Dalo - xlsx / xls / csv", type=["xlsx", "xls", "csv"], accept_multiple_files=True, key="all_cdr_master")
 
