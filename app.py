@@ -179,15 +179,15 @@ st.write("---")
 st.write("Ufone / Jazz / Telenor / Zong - Tab select karo, file dalo, Cleaned Excel download karo")
 
 if "mode" not in st.session_state:
-    st.session_state.mode = "BTS"
+    st.session_state.mode = "CDR"
 c1, c2 = st.columns(2)
 with c1:
-    if st.button("📡 BTS ANALYSER", use_container_width=True):
-        st.session_state.mode = "BTS"
-        st.rerun()
-with c2:
     if st.button("📞 CDR ANALYSER", use_container_width=True):
         st.session_state.mode = "CDR"
+        st.rerun()
+with c2:
+    if st.button("📡 BTS ANALYSER", use_container_width=True):
+        st.session_state.mode = "BTS"
         st.rerun()
 class _HideTab:
     def __init__(self, real, show):
