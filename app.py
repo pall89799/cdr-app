@@ -89,15 +89,18 @@ if user["mobile"] == ADMIN_MOBILE:
 
     with pending_right:
         pending = supabase.table("users").select("*").eq("status", "pending").execute()
-        st.subheader("Pending Requests")
+        st.markdown("<h2 style='font-size:32px; color:#0B3D91; font-weight:bold;'>Pending Requests</h2>", unsafe_allow_html=True)
         if not pending.data:
             st.success("No pending")
         for p in pending.data:
-            st.subheader(f"**{p['name']}** | {p['mobile']}")
+            st.markdown(f"<p style='font-size:16px; font-weight:bold; margin-bottom:2px;'>{p['name']} | {p['mobile']}</p>", unsafe_allow_html=True)
             st.code(p['device_code'])
+            c1, c2 = st.columns(2)
+            with c1:
             if st.button(f"Approve {p['name']}", key=f"ap_{p['id']}"):
                 supabase.table("users").update({"status": "approved"}).eq("id", p['id']).execute()
                 st.rerun()
+            with c2:
             if st.button(f"Reject {p['name']}", key=f"rj_{p['id']}"):
                 supabase.table("users").delete().eq("id", p['id']).execute()
                 st.rerun()
