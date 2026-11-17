@@ -1542,7 +1542,7 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
 
     # ---------- TELENOR CDR ----------
     def _parse_telenor_cdr(df):
-        dt = pd.to_datetime(df["CALL_START_DT_TM"], errors="coerce", dayfirst=True)
+        dt = pd.to_datetime(df["CALL_START_DT_TM"].astype(str).str.strip(), errors="coerce", dayfirst=True, format="mixed")
         out = pd.DataFrame()
         ctypes = []
         for ind, ct in zip(df["INBOUND_OUTBOUND_IND"].astype(str), df["CALL_TYPE"].astype(str) if "CALL_TYPE" in df.columns else ["CALL"]*len(df)):
