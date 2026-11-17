@@ -46,6 +46,21 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
     box-shadow: 0px 4px 12px rgba(0,0,0,0.25) !important;
     transform: scale(1.05) !important;
 }}
+/* FINAL LOCK - Upar waly 2 kabhi nahi badlen gy */
+div[data-testid="stHorizontalBlock"]:first-of-type > div:nth-child(1) button {{
+    background: linear-gradient(90deg, #1E6BFF, #00C6FF) !important;
+    color: white !important;
+    border-radius: 12px !important;
+    font-weight: bold !important;
+    border: none !important;
+}}
+div[data-testid="stHorizontalBlock"]:first-of-type > div:nth-child(2) button {{
+    background: linear-gradient(90deg, #FF7A00, #FFB800) !important;
+    color: white !important;
+    border-radius: 12px !important;
+    font-weight: bold !important;
+    border: none !important;
+}}
 </style>
 """, unsafe_allow_html=True)
 
