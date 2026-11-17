@@ -20,13 +20,31 @@ if "logged_in" not in st.session_state:
 
 # ===== SIRF LOGIN + SIGNUP + APPROVAL, BAS =====
 if not st.session_state.logged_in:
-    st.title("🔐 CDR-BTS Login")
+        st.markdown("""
+    <style>
+    .stButton > button {
+        background: linear-gradient(90deg, #0f0f0f, #2b2b2b);
+        color: #FFD700 !important;
+        border: 2px solid #FFD700 !important;
+        border-radius: 12px !important;
+        padding: 12px 25px !important;
+        font-size: 18px !important;
+        font-weight: bold !important;
+        width: 100%;
+    }
+    .stButton > button:hover {
+        background: #FFD700 !important;
+        color: black !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align:center; color:#FFD700;'>🦅 EAGLE CDR ANALYZER</h1>", unsafe_allow_html=True)
     tab1, tab2 = st.tabs(["Signup", "Login"])
     with tab1:
-        name = st.text_input("Pura Naam", key="s_name")
+        name = st.text_input("Full Name", key="s_name")
         mobile = st.text_input("Mobile Number", key="s_mobile")
         cnic = st.text_input("CNIC Number", key="s_cnic")
-        password = st.text_input("Password Banao", type="password", key="s_pass")
+        password = st.text_input("Create Password", type="password", key="s_pass")
         if st.button("Create Account First"):
             if not name or not mobile or not cnic or not password:
                 st.error("Fill all fields")
@@ -55,7 +73,7 @@ if not st.session_state.logged_in:
                 if u["password"] != hash_pass(l_pass):
                     st.error("Wrong Password")
                 elif u["status"] != "Approved" and l_mobile != ADMIN_MOBILE:
-                    st.error(f"Pending hai. Code {u['device_code']} Send to Admin")
+                    st.error(f"Approval Pending. Send this code to Admin: {u['device_code']}")
                 else:
                     st.session_state.logged_in = True
                     st.session_state.user = u
