@@ -61,7 +61,7 @@ with tab1:
                     }).execute()
                     st.success("Account created! Send code to Admin")
                     st.code(device_code)
-    with tab2:
+with tab2:
         l_mobile = st.text_input("Mobile Number", key="l_mobile")
         l_pass = st.text_input("Password", type="password", key="l_pass")
         if st.button("Login"):
