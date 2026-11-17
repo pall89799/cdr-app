@@ -1608,7 +1608,8 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
                 Aakhri_Date=("Date", "max"),
                 Total_Duration=("Duration", "sum")
             ).reset_index()
-            common_a = g_a[g_a["Alag_Files"] >= 2].sort_values("Total_Calls", ascending=False)
+            all_b_set = set(full["B Party"].dropna().astype(str).str.strip())
+            common_a = g_a[g_a["A Party"].astype(str).str.strip().isin(all_b_set)].sort_values("Total_Calls", ascending=False)
 
             # ---------- Sheet 3 - Common B Party ----------
             df_b = full[full["B Party"].astype(str).str.strip() != ""]
