@@ -1651,11 +1651,11 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
                 Location=("Location", "first"),
                 LAT=("LAT", "first"),
                 LNG=("LNG", "first"),
-                Pehla_Time=("Time", "min"),
-                Aakhri_Time=("Time", "max")
+                First_Time=("Time", "min"),
+                Last_Time=("Time", "max")
             ).reset_index()
             common_l = g_l[g_l["Alag_A_Party"] >= 2].sort_values("Total_Calls", ascending=False)
-            common_l = common_l[["Date", "Location", "LAT", "LNG", "Alag_A_Party", "A_Party_List", "Total_Calls", "Pehla_Time", "Aakhri_Time"]]
+            common_l = common_l[["Date", "Location", "LAT", "LNG", "Alag_A_Party", "A_Party_List", "Total_Calls", "First_Time", "Last_Time"]]
 
             # Screen pe 5ro ka chhota hisaab dikhao
             st.write(f"**Sheet 1 - Master File:** {len(master)} rows")
