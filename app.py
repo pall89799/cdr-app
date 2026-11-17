@@ -40,7 +40,7 @@ if not st.session_state.logged_in:
         mobile = st.text_input("Mobile Number", key="s_mobile")
         cnic = st.text_input("CNIC Number", key="s_cnic")
         password = st.text_input("Password", type="password", key="s_pass")
-        if st.button("Creat Account"):
+        if st.button("Create Account"):
             if not name or not mobile or not cnic or not password:
                 st.error("Fill all Fileds")
             else:
