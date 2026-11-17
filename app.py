@@ -95,15 +95,15 @@ if user["mobile"] == ADMIN_MOBILE:
         for p in pending.data:
             st.markdown(f"<p style='font-size:16px; font-weight:bold; margin-bottom:2px;'>{p['name']} | {p['mobile']}</p>", unsafe_allow_html=True)
             st.code(p['device_code'])
-        c1, c2 = st.columns(2)
-        with c1:
-            if st.button(f"Approve {p['name']}", key=f"ap_{p['id']}"):
-                supabase.table("users").update({"status": "approved"}).eq("id", p['id']).execute()
-                st.rerun()
-        with c2:
-            if st.button(f"Reject {p['name']}", key=f"rj_{p['id']}"):
-                supabase.table("users").delete().eq("id", p['id']).execute()
-                st.rerun()
+            c1, c2 = st.columns(2)
+            with c1:
+                if st.button(f"Approve {p['name']}", key=f"ap_{p['id']}"):
+                    supabase.table("users").update({"status": "approved"}).eq("id", p['id']).execute()
+                    st.rerun()
+            with c2:
+                if st.button(f"Reject {p['name']}", key=f"rj_{p['id']}"):
+                    supabase.table("users").delete().eq("id", p['id']).execute()
+                    st.rerun()
 else:
     st.write(f"User: {user['name']} | {user['mobile']}")
 
