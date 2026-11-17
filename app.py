@@ -1,16 +1,44 @@
 import streamlit as st
 st.set_page_config(page_title="BTS Analyser", layout="wide")
 
-st.markdown("""
+# --- CDR = NEELA, BTS = ORANGE ---
+if "mode" not in st.session_state:
+    st.session_state.mode = "CDR"
+
+CDR_COLOR = "#1E6BFF"
+BTS_COLOR = "#FF7A00"
+active_color = CDR_COLOR if st.session_state.mode == "CDR" else BTS_COLOR
+active_gradient = "linear-gradient(90deg, #1E6BFF, #00C6FF)" if st.session_state.mode == "CDR" else "linear-gradient(90deg, #FF7A00, #FFB800)"
+
+st.markdown(f"""
 <style>
-div[data-testid="stButton"] > button {
-    background: linear-gradient(90deg, #0B3D91, #1E6FDB) !important;
+/* Uper waly 2 bary Button - CDR Neela / BTS Orange */
+div[data-testid="stButton"] > button {{
+    background: {active_gradient} !important;
     color: white !important;
-    border-radius: 10px !important;
+    border-radius: 12px !important;
     font-weight: bold !important;
     border: none !important;
-    padding: 10px 20px !important;
-}
+    padding: 12px 20px !important;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.20) !important;
+}}
+/* Nechy waly 5 Tabs - Khubsurat */
+[data-testid="stTabs"] button {{
+    background-color: #F1F4F9 !important;
+    color: #333333 !important;
+    border-radius: 12px !important;
+    padding: 8px 16px !important;
+    font-weight: 600 !important;
+    border: 1px solid #D9DEE8 !important;
+}}
+/* Jo Tab Select ho - Usi Colour me Namayan */
+[data-testid="stTabs"] button[aria-selected="true"] {{
+    background-color: {active_color} !important;
+    color: white !important;
+    border: 1px solid {active_color} !important;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.20) !important;
+    transform: scale(1.05) !important;
+}}
 </style>
 """, unsafe_allow_html=True)
 
