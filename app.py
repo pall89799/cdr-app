@@ -910,7 +910,10 @@ if selected_tab == 4 and st.session_state.mode == "BTS":
                 else: uploaded.seek(0); df_raw=pd.read_excel(uploaded, dtype=str)
             except Exception as e: st.warning(f"{fname} nahi khuli: {e}"); continue
             df_raw.columns=[c.strip() for c in df_raw.columns]; net=detect_network(df_raw, fname)
-            if net=="UFONE": all_final.append(parse_ufone_df(df_raw))
+            if net=="UFONE":
+                _tmp = parse_ufone_df(df_raw)
+                _tmp["A Party"] = _tmp["A Party"].astype(str).str.lstrip("0").str.replace(r"^92", "", regex=True)
+                all_final.append(_tmp)
             elif net=="JAZZ": all_final.append(parse_jazz_df(df_raw))
             elif net=="TELENOR": all_final.append(parse_telenor_df(df_raw))
             elif net=="ZONG": all_final.append(parse_zong_df(df_raw))
