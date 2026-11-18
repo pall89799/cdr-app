@@ -1611,27 +1611,29 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
             all_b_set = set(full["B Party"].dropna().astype(str).str.strip())
             common_a = g_a[g_a["A Party"].astype(str).str.strip().isin(all_b_set)].sort_values("Total_Calls", ascending=False)
             # Interlink - A jo dusre A ki B Party me ho
-    def _norm(n):
-        s = str(n).strip().replace(" ", "")
-        if s.startswith("+92"):
-            s = s[3:]
-        elif s.startswith("92") and len(s) == 12:
-            s = s[2:]
-        elif s.startswith("0") and len(s) == 11:
-            s = s[1:]
-        return s[-10:] if len(s) >= 10 else s
 
-    all_a_norm = set(full["A Party"].astype(str).map(_norm))
-    norm_to_a = {}
-    for _a in full["A Party"].astype(str):
-        norm_to_a[_norm(_a)] = _a
+        def _norm(n):
+            s = str(n).strip().replace(" ", "")
+            if s.startswith("+92"):
+                s = s[3:]
+            elif s.startswith("92") and len(s) == 12:
+                s = s[2:]
+            elif s.startswith("0") and len(s) == 11:
+                s = s[1:]
+            return s[-10:] if len(s) >= 10 else s
 
-    def _common_b_list(a_num):
-        b_list = full[full["A Party"].astype(str).map(_norm) == _norm(a_num)]["B Party"].astype(str).map(_norm)
-        common_b = sorted([norm_to_a[b] for b in b_list if b in all_a_norm and b != _norm(a_num)])
-        return ", ".join(common_b)
+        all_a_norm = set(full["A Party"].astype(str).map(_norm))
+        norm_to_a = {}
+        for _a in full["A Party"].astype(str):
+            norm_to_a[_norm(_a)] = _a
 
-    common_a["Jis_A_Ko_Call_Ki_Interlink"] = common_a["A Party"].apply(_common_b_list)
+        def _common_b_list(a_num):
+            b_list = full[full["A Party"].astype(str).map(_norm) == _norm(a_num)]["B Party"].astype(str).map(_norm)
+            common_b = sorted([norm_to_a[b] for b in b_list if b in all_a_norm and b != _norm(a_num)])
+            return ", ".join(common_b)
+
+        common_a["Jis_A_Ko_Call_Ki_Interlink"] = common_a["A Party"].apply(_common_b_list)
+                
             # ---------- Sheet 3 - Common B Party ----------
             df_b = full[full["B Party"].astype(str).str.strip() != ""]
             g_b = df_b.groupby("B Party").agg(
