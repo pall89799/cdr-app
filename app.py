@@ -820,7 +820,7 @@ if selected_tab == 1 and st.session_state.mode == "BTS":
         all_dfs=[]
         for uploaded in uploaded_jazz:
             df=pd.read_excel(uploaded, dtype=str); df.columns=[c.strip() for c in df.columns]; all_dfs.append(df)
-        df=pd.concat(all_dfs, ignore_index=True); dt=pd.to_datetime(df["Date And Time"], errors="coerce")
+        df=pd.concat(all_dfs, ignore_index=True); raw=pd.to_numeric(df["Date And Time"], errors="coerce"); dt=pd.to_datetime(raw, unit="D", origin="1899-12-30", errors="coerce").combine_first(pd.to_datetime(df["Date And Time"], errors="coerce"))
         def jazz_lac_cell(cell_val):
             s=str(cell_val).strip(); lac_hex=s[:4][::-1]; cell_hex=s[4:8][::-1]
             try: lac=int(lac_hex,16)
