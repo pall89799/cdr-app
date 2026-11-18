@@ -351,7 +351,7 @@ def parse_jazz_df(df):
     raw = pd.to_numeric(df["Date And Time"], errors="coerce")
     dt_text = pd.to_datetime(df["Date And Time"], errors="coerce")
     dt_num = pd.to_datetime(raw, origin="1899-12-30", unit="D", errors="coerce")
-    is_num = df["Date And Time"].apply(lambda x: isinstance(x, (int, float)))
+    is_num = raw.notna()
     dt = dt_num.where(is_num, dt_text)
     def jazz_lac_cell(cell_val):
         s = str(cell_val).strip()
