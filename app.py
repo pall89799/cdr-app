@@ -1610,45 +1610,9 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
             ).reset_index()
             all_b_set = set(full["B Party"].dropna().astype(str).str.strip())
             common_a = g_a[g_a["A Party"].astype(str).str.strip().isin(all_b_set)].sort_values("Total_Calls", ascending=False)
-            # Interlink - A jo dusre A ki B Party me ho
-
-        def _norm(n):
-            s = str(n).strip().replace(" ", "")
-            if s.startswith("+92"):
-                s = s[3:]
-            elif s.startswith("92") and len(s) == 12:
-                s = s[2:]
-            elif s.startswith("0") and len(s) == 11:
-                s = s[1:]
-            return s[-10:] if len(s) >= 10 else s
-
-        all_a_norm = set(full["A Party"].astype(str).map(_norm))
-        norm_to_a = {}
-        for _a in full["A Party"].astype(str):
-            norm_to_a[_norm(_a)] = _a
-
-        def _common_b_list(a_num):
-            b_list = full[full["A Party"].astype(str).map(_norm) == _norm(a_num)]["B Party"].astype(str).map(_norm)
-            common_b = sorted([norm_to_a[b] for b in b_list if b in all_a_norm and b != _norm(a_num)])
-            return ", ".join(common_b)
-
-        common_a["Jis_A_Ko_Call_Ki_Interlink"] = common_a["A Party"].apply(_common_b_list)
-                
-            # ---------- Sheet 3 - Common B Party ----------
-            df_b = full[full["B Party"].astype(str).str.strip() != ""]
-            g_b = df_b.groupby("B Party").agg(
-                Total_Calls=("B Party", "count"),
-                Alag_A_Party=("A Party", "nunique"),
-                Alag_Files=("_File", "nunique"),
-                A_Party_List=("A Party", lambda x: ", ".join(sorted(set(x.astype(str)))[:6])),
-                Files=("_File", lambda x: ", ".join(sorted(set(x.astype(str)))[:5])),
-                Networks=("_Net", lambda x: ", ".join(sorted(set(x.astype(str))))),
-                Pehli_Date=("Date", "min"),
-                Aakhri_Date=("Date", "max"),
-                Total_Duration=("Duration", "sum")
-            ).reset_index()
-            common_b = g_b[(g_b["Alag_A_Party"] >= 2) | (g_b["Alag_Files"] >= 2)].sort_values("Total_Calls", ascending=False)
-
+            # Interlink - A jo dusre A ki B Party me ho 
+                common_a["Jis_A_Ko_Call_Ki_Interlink"] = common_a["A Party"].apply(lambda a_num: ", ".join(sorted(set(full[full["A Party"].astype(str).str.replace(" ", "").str[-10:] == str(a_num).replace(" ", "")[-10:]]["B Party"].astype(str).str.replace(" ", "").str[-10:]) & set(full["A Party"].astype(str).str.replace(" ", "").str[-10:]) - {str(a_num).replace(" ", "")[-10:]})))
+                df_b = full[full["B Party"].astype(str).str.strip() != ""]; g_b = df_b.groupby("B Party").agg(Total_Calls=("B Party", "count"), Alag_A_Party=("A Party", "nunique"), Alag_Files=("_File", "nunique"), A_Party_List=("A Party", lambda x: ", ".join(sorted(set(x.astype(str)))[:6])), Files=("_File", lambda x: ", ".join(sorted(set(x.astype(str)))[:5])), Networks=("_Net", lambda x: ", ".join(sorted(set(x.astype(str))))), Pehli_Date=("Date", "min"), Aakhri_Date=("Date", "max"), Total_Duration=("Duration", "sum")).reset_index(); common_b = g_b[(g_b["Alag_A_Party"] >= 2) | (g_b["Alag_Files"] >= 2)].sort_values("Total_Calls", ascending=False)
             # ---------- Sheet 4 - Common IMEI ----------
             df_i = full[full["IMEI"].astype(str).str.strip() != ""]
             g_i = df_i.groupby("IMEI").agg(
