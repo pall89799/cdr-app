@@ -1611,13 +1611,12 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
             all_b_set = set(full["B Party"].dropna().astype(str).str.strip())
             common_a = g_a[g_a["A Party"].astype(str).str.strip().isin(all_b_set)].sort_values("Total_Calls", ascending=False)
             # Kis A ne kis A ko call ki - Naya Column
-all_a_set = set(full["A Party"].dropna().astype(str).str.strip())
-def _common_b_list(a_num):
-    b_list = full[full["A Party"].astype(str).str.strip() == str(a_num).strip()]["B Party"].astype(str).str.strip().unique()
-    common_b = sorted([b for b in b_list if b in all_a_set])
-    return ", ".join(common_b)
-
-common_a["Jis_A_Ko_Call_Ki"] = common_a["A Party"].apply(_common_b_list)
+            all_a_set = set(full["A Party"].dropna().astype(str).str.strip())
+            def _common_b_list(a_num):
+                b_list = full[full["A Party"].astype(str).str.strip() == str(a_num).strip()]["B Party"].astype(str).str.strip().unique()
+                common_b = sorted([b for b in b_list if b in all_a_set])
+                return ", ".join(common_b)
+                common_a["Jis_A_Ko_Call_Ki"] = common_a["A Party"].apply(_common_b_list)
 
             # ---------- Sheet 3 - Common B Party ----------
             df_b = full[full["B Party"].astype(str).str.strip() != ""]
