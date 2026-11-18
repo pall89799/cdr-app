@@ -911,7 +911,7 @@ if selected_tab == 4 and st.session_state.mode == "BTS":
             except Exception as e: st.warning(f"{fname} nahi khuli: {e}"); continue
             df_raw.columns=[c.strip() for c in df_raw.columns]; net=detect_network(df_raw, fname)
             if net=="UFONE": all_final.append(parse_ufone_df(df_raw))
-            elif net=="JAZZ": all_final.append(parse_jazz_df(df_raw))
+            elif net=="JAZZ": df_raw["Date And Time"] = pd.to_datetime(pd.to_numeric(df_raw["Date And Time"], errors="coerce"), origin="1899-12-30", unit="D", errors="coerce").combine_first(pd.to_datetime(df_raw["Date And Time"], errors="coerce")).dt.strftime("%Y-%m-%d %H:%M:%S"); all_final.append(parse_jazz_df(df_raw))
             elif net=="TELENOR": all_final.append(parse_telenor_df(df_raw))
             elif net=="ZONG": all_final.append(parse_zong_df(df_raw))
             else: st.warning(f"{fname} - Network pehchana nahi gaya, skip kar diya")
