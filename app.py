@@ -1467,7 +1467,7 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
 
     # ---------- ZONG CDR ----------
     def _parse_zong_cdr(df):
-        dt = pd.to_datetime(df["STRT_TM"], format="%d/%m/%Y %H:%M:%S", errors="coerce")
+        dt = pd.to_datetime(df["STRT_TM"], format="%m/%d/%Y %H:%M:%S", errors="coerce")
         dt = dt.fillna(pd.to_datetime(df["STRT_TM"], errors="coerce", dayfirst=True))
         out = pd.DataFrame()
         out["Call Type"] = df["CALL_TYPE"].apply(lambda x: _make_call_type(x))
