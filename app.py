@@ -1488,6 +1488,8 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
         out["LAT"] = df["LAT"].apply(_clean_num) if "LAT" in df.columns else ""
         out["LNG"] = df["LNG"].apply(_clean_num) if "LNG" in df.columns else ""
         return out
+    
+    #--------def_jazz_hex------
     def _jazz_hex_all_cdr(v):
         s = str(v).strip().upper()
         if not s or s == "NAN":
@@ -1504,10 +1506,23 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
             cellid = ""
         return lac, cellid
     # ---------- JAZZ CDR ----------
+    def _jazz_call_type(v):
+        s = str(v).strip().upper()
+        if "SMS" in s:
+            if "OUT" in s:
+                return "Out SMS"
+            if "IN" in s:
+                return "In SMS"
+            return "SMS"
+        if "OUT" in s:
+            return "Out Call"
+        if "IN" in s:
+            return "In Call"
+        return s.title()
     def _parse_jazz_cdr(df):
         dt = pd.to_datetime(df["Datetime"], errors="coerce")
         out = pd.DataFrame()
-        out["Call Type"] = df["CallType"].apply(lambda x: _make_call_type(x))
+        out["Call Type"] = df["CallType"].apply(lambda x: _jazz_call_type(x))
         out["A Party"] = df["Aparty"].apply(_clean_num)
         out["B Party"] = df["BParty"].apply(_clean_num)
         out["Date"] = dt.dt.strftime("%d-%m-%y")
