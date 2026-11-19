@@ -1545,7 +1545,7 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
         if "SMS" in t:
             return ("SMS " + suf).strip()
         if "VOICE" in t or "CALL" in t or "MOC" in t or "MTC" in t:
-        return ("Call " + suf).strip()
+            return ("Call " + suf).strip()
         return (t.title() + " " + suf).strip()
     def _ufone_split_cellid(v):
         s = str(v).strip()
