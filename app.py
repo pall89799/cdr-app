@@ -1488,7 +1488,21 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
         out["LAT"] = df["LAT"].apply(_clean_num) if "LAT" in df.columns else ""
         out["LNG"] = df["LNG"].apply(_clean_num) if "LNG" in df.columns else ""
         return out
-
+    def _jazz_hex_all_cdr(v):
+        s = str(v).strip().upper()
+        if not s or s == "NAN":
+            return "", ""
+        lac_hex = s[:4][::-1]
+        cell_hex = s[4:8][::-1]
+        try:
+            lac = int(lac_hex, 16)
+        except:
+            lac = ""
+        try:
+            cellid = int(cell_hex, 16)
+        except:
+            cellid = ""
+        return lac, cellid
     # ---------- JAZZ CDR ----------
     def _parse_jazz_cdr(df):
         dt = pd.to_datetime(df["Datetime"], errors="coerce")
@@ -1500,8 +1514,9 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
         out["Time"] = dt.dt.strftime("%H:%M:%S")
         out["Duration"] = pd.to_numeric(df["Duration"], errors="coerce").fillna(0).astype(int)
         out["IMEI"] = df["Imei"].apply(_clean_num) if "Imei" in df.columns else ""
-        out["LAC"] = ""
-        out["CID"] = df["cellid"].apply(_clean_num) if "cellid" in df.columns else ""
+        _lac_cid = [_jazz_hex_all_cdr(v) for v in df["cellid"]] if "cellid" in df.columns else [("", "")] * len(df)
+        out["LAC"] = [x[0] for x in _lac_cid]
+        out["CID"] = [x[1] for x in _lac_cid]
         locs, lats, lngs = [], [], []
         for v in df["SiteLocation"].astype(str):
             parts = [p.strip() for p in v.split("|")]
