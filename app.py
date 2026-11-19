@@ -1536,14 +1536,32 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
         out["LAT"] = lats
         out["LNG"] = lngs
         return out
-
+    def _ufone_call_type(t, d):
+        t = str(t).strip().upper()
+        d = str(d).strip().upper()
+        suf = "out" if "OUT" in d else "in" if "IN" in d else ""
+        if "DATA" in t or "INTERNET" in t or "GPRS" in t:
+            return ("Data " + suf).strip()
+        if "SMS" in t:
+            return ("SMS " + suf).strip()
+        if "VOICE" in t or "CALL" in t or "MOC" in t or "MTC" in t:
+        return ("Call " + suf).strip()
+        return (t.title() + " " + suf).strip()
+    def _ufone_split_cellid(v):
+        s = str(v).strip()
+        if not s or s == "NAN":
+            return "", ""
+        s = s.split(".")[0]
+        n = len(s)
+        half = n // 2
+        return s[:half], s[half:]
     # ---------- UFONE CDR ----------
     def _parse_ufone_cdr(df):
         dt = pd.to_datetime(df["Start Time"], errors="coerce", dayfirst=True)
         out = pd.DataFrame()
         ctypes = []
         for t, d in zip(df["Type"].astype(str), df["Direction"].astype(str)):
-            ctypes.append(_make_call_type(t, d))
+            ctypes.append(_ufone_call_type(t, d))
         out["Call Type"] = ctypes
         out["A Party"] = df["A Number"].apply(_clean_num)
         out["B Party"] = df["B Number"].apply(_clean_num)
@@ -1551,8 +1569,9 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
         out["Time"] = dt.dt.strftime("%H:%M:%S")
         out["Duration"] = pd.to_numeric(df["Duration"], errors="coerce").fillna(0).astype(int)
         out["IMEI"] = df["IMEI"].apply(_clean_num) if "IMEI" in df.columns else ""
-        out["LAC"] = ""
-        out["CID"] = df["Cell Id"].apply(_clean_num) if "Cell Id" in df.columns else ""
+        _lac_cid = [_ufone_split_cellid(v) for v in df["Cell Id"]] if "Cell Id" in df.columns else [("", "")] * len(df)
+        out["LAC"] = [x[0] for x in _lac_cid]
+        out["CID"] = [x[1] for x in _lac_cid]
         out["Location"] = df["Location"].apply(_clean_num) if "Location" in df.columns else ""
         out["LAT"] = df["Latitude"].apply(_clean_num) if "Latitude" in df.columns else ""
         out["LNG"] = df["Longitude"].apply(_clean_num) if "Longitude" in df.columns else ""
