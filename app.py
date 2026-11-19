@@ -1572,12 +1572,13 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
         return s[:half], s[half:]
     # ---------- UFONE CDR ----------
     def _parse_ufone_cdr(df):
-        dt = pd.to_datetime(df["Start Time"], errors="coerce", dayfirst=True)
+        _dt_col = next((c for c in ["Start Time", "StartTime", "Date Time", "Datetime", "Call Time", "Date"] if c in df.columns), None)
+        if _dt_col is not None:
+            dt = pd.to_datetime(df[_dt_col], errors="coerce", dayfirst=True)
+        else:
+            dt = pd.Series(pd.NaT, index=df.index)
         out = pd.DataFrame()
-        ctypes = []
-        for t, d in zip(df["Type"].astype(str), df["Direction"].astype(str)):
-            ctypes.append(_ufone_call_type(t, d))
-        out["Call Type"] = ctypes
+        out["Call Type"] = [_make_call_type(t, d) for t, d in zip(df["Type"].astype(str), df["Direction"].astype(str))]
         out["A Party"] = df["A Number"].apply(_clean_num)
         out["B Party"] = df["B Number"].apply(_clean_num)
         out["Date"] = dt.dt.strftime("%d-%m-%y")
