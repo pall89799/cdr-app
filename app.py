@@ -1522,7 +1522,7 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
     def _parse_jazz_cdr(df):
         dt = pd.to_datetime(df["Datetime"], errors="coerce")
         out = pd.DataFrame()
-        out["Call Type"] = df["CallType"].apply(lambda x: _jazz_call_type(x))
+        out["Call Type"] = df["CallType"].apply(lambda x: _make_call_type(x))
         out["A Party"] = df["Aparty"].apply(_clean_num)
         out["B Party"] = df["BParty"].apply(_clean_num)
         out["Date"] = dt.dt.strftime("%d-%m-%y")
