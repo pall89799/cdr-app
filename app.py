@@ -288,14 +288,34 @@ def clean_number(num):
     s = str(num).strip()
     if s == "" or s.lower() == "nan":
         return ""
+    
+    # HEX CHECK: Agar isme A-F letter hai to ye Hex Sender ID ho sakta hai
+    # Jaise 4A415A5A203547 -> JAZZ 5G
+    if any(c in "ABCDEFabcdef" for c in s) and len(s) % 2 == 0:
+        try:
+            decoded = bytes.fromhex(s).decode('ascii')
+            # Sirf tab badlo jab saaf text bane
+            if all(32 <= ord(c) <= 126 for c in decoded):
+                return decoded.strip()
+        except:
+            pass
+        return s
+
     if any(c.isalpha() for c in s):
         return s
+
+    is_pak = s.startswith("+92") or s.startswith("92") or s.startswith("0")
+
     if s.startswith("+92"):
         s = s[3:]
     elif s.startswith("92") and len(s) > 10:
         s = s[2:]
     elif s.startswith("0"):
         s = s[1:]
+
+    # Sirf Pakistani number ko kaato
+    if is_pak and len(s) > 10 and s.isdigit() and s.startswith("3"):
+        s = s[:10]
     return s
 
 def add_extra_columns(final, df_dt):
