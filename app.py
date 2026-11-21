@@ -1645,8 +1645,8 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
         else:
             dt = pd.Series(pd.NaT, index=df.index)
         out = pd.DataFrame()
-        type_col = next((c for c in df.columns if "CALL_TYPE" in str(c).upper() or str(c).strip().lower() == "type"), df.columns[3])
-        dir_col = next((c for c in df.columns if "INBOUND" in str(c).upper() or "OUTBOUND" in str(c).upper() or str(c).strip().lower() =="direction"), df.columns[12])
+        type_col = next((c for c in df.columns if "TYPE" in str(c).upper()), df.columns[3])
+        dir_col = next((c for c in df.columns if "INBOUND" in str(c).upper() or "OUTBOUND" in str(c).upper() or "DIRECTION" in str(c).upper()), df.columns[12])
         out["Call Type"] = [_make_call_type(t, d) for t, d in zip(df[type_col].astype(str), df[dir_col].astype(str))]
         out["A Party"] = df["A Number"].apply(_clean_num)
         out["B Party"] = df["B Number"].apply(_clean_num)
