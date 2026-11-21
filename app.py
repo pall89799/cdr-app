@@ -349,10 +349,10 @@ def download_section(final, filename):
         final.to_excel(writer, index=False, sheet_name="Cleaned")
         # Header ko Grey karo
         ws = writer.sheets["Cleaned"]
-        grey_fill = PatternFill(start_color="D9D9D9", end_color="D9D9D9", fill_type="solid")
+        grey_fill = PatternFill(start_color="4472c4", end_color="4472c4", fill_type="solid")
         for cell in ws[1]:
             cell.fill = grey_fill
-            cell.font = Font(bold=True)
+            cell.font = Font(bold=True, color="FFFFFF")
             cell.alignment = Alignment(horizontal="center", vertical="center")
     st.download_button(label="📥 Cleaned Excel (XLSX) Download Karo", data=output.getvalue(), file_name=filename, mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     st.dataframe(final)
