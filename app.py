@@ -383,8 +383,8 @@ def parse_ufone_df(df):
     df.columns = [c.strip() for c in df.columns]
     dt = pd.to_datetime(df["CALL_START_TIME"], errors="coerce")
     final = pd.DataFrame()
-    typ = df["CALL_TYPE"].astype(str).str.strip().str.lower()
-    direc = df["CALL_INBOUND_OUTBOUND_DESC"].astype(str).str.strip().str.lower()
+    typ = df.iloc[:, 3].astype(str).str.strip().str.lower()
+    direc = df.iloc[:, 12].astype(str).str.strip().str.lower()
     final["Call Type"] = "Out Call"
     final.loc[typ.str.contains("gprs|data|internet", na=False), "Call Type"] = "GPRS"
     final.loc[typ.str.contains("sms", na=False) & direc.str.contains("incoming|inbound", na=False), "Call Type"] = "In SMS"
