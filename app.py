@@ -1481,13 +1481,13 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
             except:
                 f.seek(0)
                 df_raw = pd.read_csv(f, dtype=str, header=None, encoding="latin1")
-    elif lname.endswith(".txt"):
-        try:
-            f.seek(0)
-            df_raw = pd.read_csv(f, dtype=str, header=None, encoding="utf-16", sep="\t")
-        except:
-            f.seek(0)
-            df_raw = pd.read_csv(f, dtype=str, header=None, encoding="utf-8", sep="\t", errors="ignore")        
+        elif lname.endswith(".txt"):
+            try:
+                f.seek(0)
+                df_raw = pd.read_csv(f, dtype=str, header=None, encoding="utf-16", sep="\t")
+            except:
+                f.seek(0)
+                df_raw = pd.read_csv(f, dtype=str, header=None, encoding="utf-8", sep="\t", errors="ignore")       
         else:
             try:
                 df_raw = pd.read_excel(f, dtype=str, header=None, sheet_name=0)
