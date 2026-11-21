@@ -390,8 +390,8 @@ def parse_ufone_df(df):
     final.loc[typ.str.contains("sms", na=False) & direc.str.contains("incoming|inbound", na=False), "Call Type"] = "In SMS"
     final.loc[typ.str.contains("sms", na=False) & direc.str.contains("outgoing|outbound", na=False), "Call Type"] = "Out SMS"
     final.loc[typ.str.contains("voice|call", na=False) & direc.str.contains("incoming|inbound", na=False), "Call Type"] = "In Call"
-    final.loc[typ.str.contains("voice|call", na=False) & direc.str.contains("outgoing|outbound", na=False), "Call Type"] = "Out Call"
-    final.loc[final["Call Type"].str.contains("INCOMING", na=False), "Call Type"] = "In Call"
+    final.loc[final["Call Type"].str.contains("incoming", case=False, na=False), "Call Type"] = "In Call"
+    final.loc[final["Call Type"].str.contains("outgoing", case=False, na=False), "Call Type"] = "Out Call"
     final.loc[final["Call Type"].str.contains("OUTGOING", na=False), "Call Type"] = "Out Call"
     final["A Party"] = df["A_NUMBER"].apply(clean_number)
     final["B Party"] = df["B_NUMBER"].apply(clean_number)
