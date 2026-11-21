@@ -1024,12 +1024,6 @@ if selected_tab == 1 and st.session_state.mode == "CDR":
                 loc_sum.to_excel(writer, index=False, sheet_name="Location Summary")
                 imei_sum.to_excel(writer, index=False, sheet_name="IMEI Summary")
                 night_sum.to_excel(writer, index=False, sheet_name="Night Stay")
-                blue_fill = PatternFill(start_color="4472C4", end_color="4472C4", fill_type="solid")
-                for ws in writer.sheets.values():
-                    for cell in ws[1]:
-                    cell.fill = blue_fill
-                    cell.font = Font(bold=True, color="FFFFFF")
-                    cell.alignment = Alignment(horizontal="center", vertical="center")
             st.download_button(label="📥 CDR Jazz Standardized Excel Download Karo - 6 Sheets - No Addresses", data=output.getvalue(), file_name="Jazz_CDR_Standardized.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
             st.write("**Preview - CDR Data - 12 Column**"); st.dataframe(cdr_data.head(20))
             c1,c2,c3 = st.columns(3)
