@@ -1655,7 +1655,7 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
         _lac_cid = [_ufone_split_cellid(v) for v in df["Cell Id"]] if "Cell Id" in df.columns else [("", "")] * len(df)
         out["LAC"] = [x[0] for x in _lac_cid]
         out["CID"] = [x[1] for x in _lac_cid]
-        out["Location"] = df["Location"].apply(_clean_num) if "Location" in df.columns else ""
+        out["Call Type"] = df["CALL_TYPE_NAME"].astype(str).str.strip().str.upper() + " " + df["CALL_INBOUND_OUTBOUND_DESC"].astype(str).str.strip().str.upper()
         out["LAT"] = df["Latitude"].apply(_clean_num) if "Latitude" in df.columns else ""
         out["LNG"] = df["Longitude"].apply(_clean_num) if "Longitude" in df.columns else ""
         return out
