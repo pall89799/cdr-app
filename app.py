@@ -62,6 +62,7 @@ div[data-testid="stButton"] button[kind="secondary"] {{
 from supabase import create_client
 import random
 import hashlib
+from openpyxl.styles import PatternFill, Font, Alignment
 
 SUPABASE_URL = "https://qctbnewntgzeagfdafgx.supabase.co"
 SUPABASE_KEY = "sb_publishable_JvfMI_5erJ88oNY8Lvi1cw_30WNW4xx"
@@ -346,6 +347,13 @@ def download_section(final, filename):
     output = io.BytesIO()
     with pd.ExcelWriter(output, engine="openpyxl") as writer:
         final.to_excel(writer, index=False, sheet_name="Cleaned")
+        # Header ko Grey karo
+        ws = writer.sheets["Cleaned"]
+        grey_fill = PatternFill(start_color="D9D9D9", end_color="D9D9D9", fill_type="solid")
+        for cell in ws[1]:
+            cell.fill = grey_fill
+            cell.font = Font(bold=True)
+            cell.alignment = Alignment(horizontal="center", vertical="center")
     st.download_button(label="📥 Cleaned Excel (XLSX) Download Karo", data=output.getvalue(), file_name=filename, mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     st.dataframe(final)
 
