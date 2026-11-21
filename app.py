@@ -1645,7 +1645,7 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
         else:
             dt = pd.Series(pd.NaT, index=df.index)
         out = pd.DataFrame()
-        out["Call Type"] = [_make_call_type(t, d) for t, d in zip(df["Type"].astype(str), df["Direction"].astype(str))]
+        out["Call Type"] = [_make_call_type(t, d) for t, d in zip(df["CALL_TYPE_NAME"].astype(str), df["CALL_INBOUND_OUTBOUND_DESC"].astype(str))]
         out["A Party"] = df["A Number"].apply(_clean_num)
         out["B Party"] = df["B Number"].apply(_clean_num)
         out["Date"] = dt.dt.strftime("%d-%m-%y")
@@ -1654,8 +1654,6 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
         out["IMEI"] = df["IMEI"].apply(_clean_num) if "IMEI" in df.columns else ""
         _lac_cid = [_ufone_split_cellid(v) for v in df["Cell Id"]] if "Cell Id" in df.columns else [("", "")] * len(df)
         out["LAC"] = [x[0] for x in _lac_cid]
-        out["CID"] = [x[1] for x in _lac_cid]
-        out["Call Type"] = df["CALL_TYPE_NAME"].astype(str).str.strip().str.upper() + " " + df["CALL_INBOUND_OUTBOUND_DESC"].astype(str).str.strip().str.upper()
         out["LAT"] = df["Latitude"].apply(_clean_num) if "Latitude" in df.columns else ""
         out["LNG"] = df["Longitude"].apply(_clean_num) if "Longitude" in df.columns else ""
         return out
