@@ -1451,15 +1451,15 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
     def _make_call_type(raw_type, direction=""):
         t = str(raw_type).strip().lower()
         d = str(direction).strip().lower()
-        if "data" in t or "gprs" in t or "internet" in t: return "Data Out" if "out" in d or d == "outgoing" else "Data In"
+        if "data" in t or "gprs" in t: return "Data Out" if "out" in d or d == "outgoing" else "Data In"
         if "sms" in t:
-            if "in" in t or "in" in d:
+            if d in ["incoming", "incomming"]:
                 return "In SMS"
             if "out" in t or "out" in d:
                 return "Out SMS"
             return "SMS"
         if "call" in t or "voice" in t:
-            if "in" in t or "in" in d or d in ["incoming", "incomming"]:
+            if d in ["incoming", "incomming"]:
                 return "In Call"
             if "out" in t or "out" in d or d in ["outgoing", "outcomming"]:
                 return "Out Call"
