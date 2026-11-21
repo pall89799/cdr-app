@@ -285,6 +285,21 @@ div[data-testid="stHorizontalBlock"] div[data-testid="stButton"] > button {{
 """, unsafe_allow_html=True)
 
 selected_tab = st.session_state.sub_idx
+def clean_call_type(v):
+    s = str(v).strip().upper()
+    if "SMS" in s:
+        if "OUT" in s:
+            return "Out SMS"
+        if "IN" in s:
+            return "In SMS"
+        return "SMS"
+    if "GPRS" in s or "DATA" in s or "INTERNET" in s:
+        return "GPRS"
+    if "OUT" in s:
+        return "Out Call"
+    if "IN" in s:
+        return "In Call"
+    return str(v).strip()
 def clean_number(num):
     s = str(num).strip()
     if s == "" or s.lower() == "nan":
@@ -368,7 +383,12 @@ def parse_ufone_df(df):
     df.columns = [c.strip() for c in df.columns]
     dt = pd.to_datetime(df["CALL_START_TIME"], errors="coerce")
     final = pd.DataFrame()
-    final["Call Type"] = df["CALL_INBOUND_OUTBOUND_DESC"]
+    ct = df["CALL_INBOUND_OUTBOUND_DESC"].astype(str).str.strip().str.lower()
+    final["Call Type"] = "Out Call"
+    final.loc[ct.str.contains("gprs|data|internet", na=False), "Call Type"] = "GPRS"
+    final.loc[ct.str.contains("inbound|incoming", na=False) & ct.str.contains("sms", na=False), "Call Type"] = "In SMS"
+    final.loc[~ct.str.contains("inbound|incoming", na=False) & ct.str.contains("sms", na=False), "Call Type"] = "Out SMS"
+    final.loc[ct.str.contains("inbound|incoming", na=False) & ~ct.str.contains("sms|gprs|data|internet", na=False), "Call Type"] = "In Call"
     final["A Party"] = df["A_NUMBER"].apply(clean_number)
     final["B Party"] = df["B_NUMBER"].apply(clean_number)
     final["Date"] = dt.dt.strftime("%d-%m-%y")
@@ -401,7 +421,7 @@ def parse_jazz_df(df):
     for v in df["Cell ID"]:
         l,c = jazz_lac_cell(v); lac_list.append(l); cell_list.append(c)
     final = pd.DataFrame()
-    final["Call Type"] = df["Call Type"].astype(str).str.upper()
+    final["Call Type"] = df["Call Type"].apply(clean_call_type)
     final["A Party"] = df["A-Party"].apply(clean_number)
     final["B Party"] = df["B-Party"].apply(clean_number)
     final["Date"] = dt.dt.strftime("%d-%m-%y")
@@ -425,9 +445,9 @@ def parse_telenor_df(df):
         elif d=="OUTGOING" and t=="CALL": merged.append("Out Call")
         elif d=="INCOMING" and t=="SMS": merged.append("In SMS")
         elif d=="OUTGOING" and t=="SMS": merged.append("Out SMS")
-        elif d=="INCOMING": merged.append("In "+t.title())
-        elif d=="OUTGOING": merged.append("Out "+t.title())
-        else: merged.append(t.title())
+        elif d=="INCOMING": merged.append("In Call")
+        elif d=="OUTGOING": merged.append("Out Call")
+        else: merged.append("Out Call")
     tmp["Call Type"]=merged; tmp["A Party"]=df["MSISDN"].apply(clean_number)
     tmp["B Party"]=df["CALL_DIALED_NUM"].apply(clean_number) if "CALL_DIALED_NUM" in df.columns else df["CALL_ORIG_NUM"].apply(clean_number)
     tmp["Date"]=dt.dt.strftime("%d-%m-%y"); tmp["Time"]=dt.dt.strftime("%H:%M:%S")
@@ -440,7 +460,7 @@ def parse_zong_df(df):
     dt = pd.to_datetime(df["STRT_TM"], errors="coerce")
     final = pd.DataFrame()
     dir_col = df["DIR_FLG"].astype(str).str.strip().str.lower()
-    final["Call Type"] = dir_col.map({"incomming":"In Call","incoming":"In Call","outgoing":"Out Call","outcomming":"Out Call"}).fillna(df["DIR_FLG"])
+    final["Call Type"] = dir_col.map({"incomming":"In Call","incoming":"In Call","outgoing":"Out Call","outcomming":"Out Call"}).fillna("Out Call")
     final["A Party"]=df["DLG_NO"].apply(clean_number); final["B Party"]=df["DLD_NO"].apply(clean_number)
     final["Date"]=dt.dt.strftime("%d-%m-%y"); final["Time"]=dt.dt.strftime("%H:%M:%S")
     _cols = {str(c).strip().upper(): str(c).strip() for c in df.columns}
