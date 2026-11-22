@@ -1816,8 +1816,11 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
                 all_final.append(clean)
                 # Start-End Date nikalna
                 try:
-                    _is_dayfirst = net in ["TELENOR", "UFONE"]
-                    _dates = pd.to_datetime(clean["Date"], errors="coerce", dayfirst=_is_dayfirst).dropna()
+                    _clean_date = clean["Date"].astype(str).str.strip().str.replace(r'[./]', '-', regex=True)
+                    if str(net).upper() in ["ZONG", "JAZZ"]:
+                        _dates = pd.to_datetime(_clean_date, errors="coerce", format="%m-%d-%y").dropna()
+                    else:
+                        _dates = pd.to_datetime(_clean_date, errors="coerce", format="%d-%m-%y").dropna()
                     _s = _dates.min().strftime("%d-%m-%Y") if len(_dates) else "?"
                     _e = _dates.max().strftime("%d-%m-%Y") if len(_dates) else "?"
                 except:
