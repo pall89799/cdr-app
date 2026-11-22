@@ -1814,8 +1814,8 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
                 clean["_File"] = f.name
                 clean["_Net"] = net
                 all_final.append(clean)      
-        st.success(f"✅ {f.name} -> {net} - {len(clean)} rows")       
-        except Exception as e:
+                st.success(f"✅ {f.name} -> {net} - {len(clean)} rows")       
+            except Exception as e:
                 st.error(f"❌ {f.name} me masla: {e}")
 
         if all_final:
