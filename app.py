@@ -386,11 +386,17 @@ def parse_ufone_df(df):
     # Ufone file UTF-16 hoti hai, isliye naam se column pakro
     typ = df["CALL_TYPE_NAME"].astype(str).str.strip().str.lower() if "CALL_TYPE_NAME" in df.columns else df.iloc[:, 3].astype(str).str.strip().str.lower()
     direc = df["CALL_INBOUND_OUTBOUND_DESC"].astype(str).str.strip().str.lower() if "CALL_INBOUND_OUTBOUND_DESC" in df.columns else df.iloc[:, 12].astype(str).str.strip().str.lower()
-    final["Call Type"] = "Out Call"
-    final.loc[typ.str.contains("sms", na=False) & direc.str.contains("incoming|inbound", na=False), "Call Type"] = "In SMS"
-    final.loc[typ.str.contains("sms", na=False) & direc.str.contains("outgoing|outbound", na=False), "Call Type"] = "Out SMS"
-    final.loc[typ.str.contains("voice|call", na=False) & direc.str.contains("incoming|inbound", na=False), "Call Type"] = "In Call"
-    final.loc[typ.str.contains("voice|call", na=False) & direc.str.contains("outgoing|outbound", na=False), "Call Type"] = "Out Call"
+    _ct = []
+    for _t, _d in zip(typ.tolist(), direc.tolist()):
+        if "sms" in _t:
+            _ct.append("In SMS" if ("incoming" in _d or "inbound" in _d) else "Out SMS")
+        elif "voice" in _t or "call" in _t:
+            _ct.append("In Call" if ("incoming" in _d or "inbound" in _d) else "Out Call")
+        elif "data" in _t or "internet" in _t or "gprs" in _t:
+            _ct.append("Data In" if ("incoming" in _d or "inbound" in _d) else "Data Out")
+        else:
+            _ct.append("Out Call")
+    final["Call Type"] = _ct        
     final["A Party"] = df["A_NUMBER"].apply(clean_number)
     final["B Party"] = df["B_NUMBER"].apply(clean_number)
     final["Date"] = dt.dt.strftime("%d-%m-%y")
