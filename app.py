@@ -1027,10 +1027,10 @@ if selected_tab == 0 and st.session_state.mode == "CDR":
             st.download_button(label="📥 CDR Ufone Standardized Download the Excel file - 6 Sheets - No Addresses", data=output.getvalue(), file_name="Ufone_CDR_Standardized.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
             st.write("**Preview - CDR Data**"); st.dataframe(cdr_data.head(20))
             c1,c2,c3 = st.columns(3)
-            with c1: st.write("**Summary - No DATA, No Total Locations**"); st.dataframe(summary)
-            with c2: st.write("**Location Summary - No DATA**"); st.dataframe(loc_sum)
+            with c1: st.write("**Summary by Numbers**"); st.dataframe(summary)
+            with c2: st.write("**Summary by Location**"); st.dataframe(loc_sum)
             with c3: st.write("**IMEI Summary**"); st.dataframe(imei_sum)
-            st.write("**Night Stay (02:00 - 08:00) - First Call / Last Call / Total Locations**"); st.dataframe(night_sum)
+            st.write("**Night Stay (02:00 - 08:00)**"); st.dataframe(night_sum)
 
 # ================= TAB 7 - CDR JAZZ - NAYA - UFONE JAISA =================
 if selected_tab == 1 and st.session_state.mode == "CDR":
@@ -1059,10 +1059,10 @@ if selected_tab == 1 and st.session_state.mode == "CDR":
             st.download_button(label="📥 CDR Jazz Standardized Download the Excel file - 6 Sheets - No Addresses", data=output.getvalue(), file_name="Jazz_CDR_Standardized.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
             st.write("**Preview - CDR Data**"); st.dataframe(cdr_data.head(20))
             c1,c2,c3 = st.columns(3)
-            with c1: st.write("**Summary - No DATA, No Total Locations**"); st.dataframe(summary)
-            with c2: st.write("**Location Summary - No DATA**"); st.dataframe(loc_sum)
+            with c1: st.write("**Summary by Numbers**"); st.dataframe(summary)
+            with c2: st.write("**Summary by Locations**"); st.dataframe(loc_sum)
             with c3: st.write("**IMEI Summary**"); st.dataframe(imei_sum)
-            st.write("**Night Stay (02:00 - 08:00) - First Call / Last Call / Total Locations**"); st.dataframe(night_sum)
+            st.write("**Night Stay (02:00 - 08:00)**"); st.dataframe(night_sum)
 
 # ===== CDR TELENOR - SIRF TELENOR - BTS / UFONE / JAZZ / ZONG KO HATH NAHI =====
 def clean_telenor_id(v):
