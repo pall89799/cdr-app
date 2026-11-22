@@ -1535,6 +1535,16 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
             s = s[2:]
         elif s.startswith("0") and len(s) > 10:
             s = s[1:]
+            if s.startswith("380") and len(s) >= 13:
+            s = s[3:13]
+        if s.startswith("640") and len(s) >= 14:
+            s = s[3:13]
+        if len(s) > 11:
+            m = _re.search(r"03\d{9}", s)
+            if m:
+                s = m.group(0)
+            else:
+                s = s[:11]
         return s
 
     def _make_call_type(raw_type, direction=""):
