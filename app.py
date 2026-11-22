@@ -967,7 +967,7 @@ if selected_tab == 4 and st.session_state.mode == "BTS":
     st.subheader("All BTS")
     st.info("Ufone + Jazz + Telenor + Zong Upload all files together")
     c1,c2,c3,c4=st.columns(4)
-    with c1: filter_date=st.date_input("Date - BTS ki aik date", value=dt_date(2026,10,22))
+    with c1: filter_date=st.date_input("Date - BTS", value=dt_date(2026,10,22))
     with c2: start_time=st.time_input("Start Time", value=pd.to_datetime("00:00").time())
     with c3: end_time=st.time_input("End Time", value=pd.to_datetime("23:59").time())
     with c4: use_filter=st.checkbox("Date + Time Filter Lagao", value=False)
