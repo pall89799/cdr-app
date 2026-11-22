@@ -222,7 +222,7 @@ st.markdown("""
 
 
 st.write("---")
-st.write("Ufone / Jazz / Telenor / Zong - Tab select karo, file dalo, Cleaned Excel download karo")
+st.write("Ufone / Jazz / Telenor / Zong - Tab select karo, file dalo, download")
 
 if "mode" not in st.session_state:
     st.session_state.mode = "CDR"
