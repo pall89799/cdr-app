@@ -1529,7 +1529,9 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
             return ""
         if any(c.isalpha() for c in s):
             return s
-        if s.startswith("+92 - 0092"):
+        if s.startswith("0092"):
+            s = s[4:]
+        elif s.startswith("+92"):
             s = s[3:]
         elif s.startswith("92") and len(s) > 10:
             s = s[2:]
