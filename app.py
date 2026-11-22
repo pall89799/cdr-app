@@ -1731,14 +1731,15 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
     # ---------- UFONE CDR ----------
     def _parse_ufone_cdr(df):
         _dt_col = next((c for c in ["Start Time", "StartTime", "Date Time", "Datetime", "Call Time", "Date"] if c in df.columns), None)
-        if _dt_col is not None:
-        # Agar Excel ne pehle se Date bana diya hai to waisa hi le lo, warna Ufone wala format parho
-            if pd.api.types.is_datetime64_any_dtype(df[_dt_col]):
-                dt = df[_dt_col]
-            else:
-                dt = pd.to_datetime(df[_dt_col].astype(str).str.strip(), errors="coerce", format="%d-%m-%y %H:%M")
-        else:
-            dt = pd.Series(pd.NaT, index=df.index)
+            if _dt_col is not None:
+        # Ufone ki Date har format mein try karo, Day hamesha pehle
+        dt = pd.to_datetime(df[_dt_col], errors="coerce", dayfirst=True, format="mixed")
+        # Agar phir bhi khali rahe to Ufone wala format zabardasti parho
+        _mask = dt.isna()
+        if _mask.any():
+            dt.loc[_mask] = pd.to_datetime(df.loc[_mask, _dt_col].astype(str).str.strip(), errors="coerce", format="%d-%m-%y %H:%M", dayfirst=True)
+    else:
+        dt = pd.Series(pd.NaT, index=df.index)
         out = pd.DataFrame()
         type_col = next((c for c in df.columns if "TYPE" in str(c).upper()), df.columns[3])
         dir_col = next((c for c in df.columns if "INBOUND" in str(c).upper() or "OUTBOUND" in str(c).upper() or "DIRECTION" in str(c).upper()), df.columns[12])
