@@ -1015,7 +1015,7 @@ if selected_tab == 0 and st.session_state.mode == "CDR":
         if raws:
             raw_all = pd.concat(raws, ignore_index=True)
             raw_out, cdr_data, summary, loc_sum, imei_sum, night_sum = build_cdr_ufone_output(raw_all)
-            st.success(f"Done! Total {len(cdr_data)} rows | Summary me {len(summary)} unique B numbers")
+            st.success(f"Done! Total {len(cdr_data)} rows | Summary  {len(summary)} unique B numbers")
             output = io.BytesIO()
             with pd.ExcelWriter(output, engine="openpyxl") as writer:
                 raw_out.to_excel(writer, index=False, sheet_name="Raw Data")
@@ -1047,7 +1047,7 @@ if selected_tab == 1 and st.session_state.mode == "CDR":
         if raws:
             raw_all = pd.concat(raws, ignore_index=True)
             raw_out, cdr_data, summary, loc_sum, imei_sum, night_sum = build_cdr_jazz_output(raw_all)
-            st.success(f"Done! Total {len(cdr_data)} rows | Summary me {len(summary)} unique B numbers")
+            st.success(f"Done! Total {len(cdr_data)} rows | Summary  {len(summary)} unique B numbers")
             output = io.BytesIO()
             with pd.ExcelWriter(output, engine="openpyxl") as writer:
                 raw_out.to_excel(writer, index=False, sheet_name="Raw Data")
@@ -1223,7 +1223,7 @@ if selected_tab == 2 and st.session_state.mode == "CDR":
             raw_all = pd.concat(pars, ignore_index=True)
             raw_disp = pd.concat(raws, ignore_index=True)
             raw_out, cdr_data, summary, loc_sum, imei_sum, night_sum = build_cdr_telenor_output(raw_all)
-            st.success(f"Done! Total {len(cdr_data)} rows | Summary me {len(summary)} unique B numbers")
+            st.success(f"Done! Total {len(cdr_data)} rows | Summary  {len(summary)} unique B numbers")
             output = io.BytesIO()
             with pd.ExcelWriter(output, engine="openpyxl") as writer:
                 raw_disp.to_excel(writer, index=False, sheet_name="Raw Data")
@@ -1410,7 +1410,7 @@ if selected_tab == 3 and st.session_state.mode == "CDR":
             raw_all = pd.concat(pars, ignore_index=True)
             raw_disp = pd.concat(raws, ignore_index=True)
             raw_out, cdr_data, summary, loc_sum, imei_sum, night_sum = build_cdr_zong_output(raw_all)
-            st.success(f"Done! Total {len(cdr_data)} rows | Summary me {len(summary)} unique B numbers")
+            st.success(f"Done! Total {len(cdr_data)} rows | Summary  {len(summary)} unique B numbers")
             output = io.BytesIO()
             with pd.ExcelWriter(output, engine="openpyxl") as writer:
                 raw_disp.to_excel(writer, index=False, sheet_name="Raw Data")
