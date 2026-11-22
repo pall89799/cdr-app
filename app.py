@@ -304,7 +304,10 @@ def clean_number(num):
     s = str(num).strip()
     if s == "" or s.lower() == "nan":
         return ""
-
+    # Jazz SMS wala B Party: 64030611391767 -> 3061139176
+    if s.startswith("640") and len(s) == 14 and s[3] == "3" and s.endswith("7"):
+        s = s[3:-1]
+        
     # HEX: 4A415A5A203547 -> JAZZ 5G
     if any(c in "ABCDEFabcdef" for c in s) and len(s) % 2 == 0:
         try:
