@@ -1814,13 +1814,9 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
                 clean["_File"] = f.name
                 clean["_Net"] = net
                 all_final.append(clean)
-        # Start-End Date nikalna
-        try:
-            _dates = pd.to_datetime(clean["Date"], errors="coerce").dropna()
-            _s = _dates.min().strftime("%d-%m-%Y") if len(_dates) else "?"
-            _e = _dates.max().strftime("%d-%m-%Y") if len(_dates) else "?"
-        except:
-            _s = _e = "?"
+                _dates = pd.to_datetime(clean["Date"], errors="coerce").dropna()
+                _s = _dates.min().strftime("%d-%m-%Y") if len(_dates) else "?"
+                _e = _dates.max().strftime("%d-%m-%Y") if len(_dates) else "?"
         st.success(f"✅ {f.name} -> {net} - {len(clean)} rows | {_s} to {_e}")       
         except Exception as e:
                 st.error(f"❌ {f.name} me masla: {e}")
