@@ -56,6 +56,43 @@ div[data-testid="stButton"] button[kind="secondary"] {{
   color: white !important;
   border: 1px solid #ff7a00 !important;
 }}
+div[data-testid="stDateInput"] input,
+div[data-testid="stTimeInput"] input {{
+    background: linear-gradient(135deg, #e0f2fe, #ffffff) !important;
+    border: 2px solid #38bdf8 !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 10px rgba(56,189,248,0.25) !important;
+}}
+
+div[data-testid="stCheckbox"] label {{
+    background: linear-gradient(135deg, #f59e0b, #ef4444) !important;
+    color: white !important;
+    padding: 10px 16px !important;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 5px 0 #991b1b, 0 8px 15px rgba(0,0,0,0.25) !important;
+}}
+
+div[data-testid="stFileUploader"] section {{
+    background: linear-gradient(135deg, #fff7ed, #fef3c7) !important;
+    border: 3px dashed #f97316 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 6px 15px rgba(249,115,22,0.20) !important;
+}}
+
+div[data-testid="stFileUploader"] button {{
+    background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 10px 22px !important;
+    font-weight: 800 !important;
+    box-shadow: 0 5px 0 #14532d, 0 8px 15px rgba(0,0,0,0.25) !important;
+}}
+div[data-testid="stFileUploader"] button:hover {{
+    transform: translateY(-2px) !important;
+}}
 </style>
 """, unsafe_allow_html=True)
 
