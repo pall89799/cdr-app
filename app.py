@@ -307,6 +307,9 @@ def clean_number(num):
     # Jazz SMS wala B Party: 64030611391767 -> 3061139176
     if s.startswith("640") and len(s) == 14 and s[3] == "3" and s.endswith("7"):
         s = s[3:-1]
+    # Jazz B Party: 3150414953414 -> 3150414953 (aakhir wale 3 extra kaat do)
+    if len(s) == 13 and s.isdigit() and s.startswith("3") and s[:2] in ("30", "31", "32", "33", "34", "35"):
+        s = s[:10]    
         
     # HEX: 4A415A5A203547 -> JAZZ 5G
     if any(c in "ABCDEFabcdef" for c in s) and len(s) % 2 == 0:
