@@ -883,7 +883,7 @@ if selected_tab == 0 and st.session_state.mode == "BTS":
             df.columns=[c.strip() for c in df.columns]; all_dfs.append(df)
         df=pd.concat(all_dfs, ignore_index=True); dt=pd.to_datetime(df["CALL_START_TIME"], errors="coerce")
         final=pd.DataFrame(); final["Call Type"]=[("In SMS" if ("INCOMING" in str(_d).upper() or "INBOUND" in str(_d).upper()) else "Out SMS") if "SMS" in str(_t).upper() else ("In Call" if ("INCOMING" in str(_d).upper() or "INBOUND" in str(_d).upper()) else "Out Call") if ("VOICE" in str(_t).upper() or "CALL" in str(_t).upper()) else ("Data In" if ("INCOMING" in str(_d).upper() or "INBOUND" in str(_d).upper()) else "Data Out") if ("DATA" in str(_t).upper() or "INTERNET" in str(_t).upper() or "GPRS" in str(_t).upper()) else "Out Call" for _t, _d in zip(df["CALL_TYPE_NAME"].astype(str), df["CALL_INBOUND_OUTBOUND_DESC"].astype(str))]; final["A Party"]=df["A_NUMBER"].apply(clean_number); final["B Party"]=df["B_NUMBER"].apply(clean_number); final["Date"]=dt.dt.strftime("%d-%m-%y"); final["Time"]=dt.dt.strftime("%H:%M:%S"); final["Duration"]=pd.to_numeric(df["CALL_DURATION"], errors="coerce").fillna(0).astype(int); final["IMEI"]=df["IMEI"]; cell=df["CELL_ID"].astype(str).str.strip(); final["LAC"]=cell.str[:5]; final["Cell ID"]=cell.str[5:]; final["Network"]="UFONE"; final=add_extra_columns(final, dt)
-        st.success(f"Ho gaya! {len(uploaded_files)} files, Total {len(final)} calls, {final['A Party'].nunique()} alag numbers")
+        st.success(f"Done! {len(uploaded_files)} files, Total {len(final)} calls, {final['A Party'].nunique()} alag numbers")
         download_section(final, "Ufone_Cleaned.xlsx")
 
 # ==================== TAB 2 - JAZZ BTS ====================
@@ -906,7 +906,7 @@ if selected_tab == 1 and st.session_state.mode == "BTS":
         for v in df["Cell ID"]:
             l,c=jazz_lac_cell(v); lac_list.append(l); cell_list.append(c)
         final=pd.DataFrame(); final["Call Type"]=[("In SMS" if "INCOMING" in str(_t).upper() else "Out SMS") if "SMS" in str(_t).upper() else ("In Call" if "INCOMING" in str(_t).upper() else "Out Call") for _t in df["Call Type"].astype(str)]; final["A Party"]=df["A-Party"].apply(clean_number); final["B Party"]=df["B-Party"].apply(clean_number); final["Date"]=dt.dt.strftime("%d-%m-%y"); final["Time"]=dt.dt.strftime("%H:%M:%S"); final["Duration"]=pd.to_numeric(df["Duration"], errors="coerce").fillna(0).astype(int); final["IMEI"]=df["IMEI"]; final["LAC"]=lac_list; final["Cell ID"]=cell_list; final["Network"]="JAZZ"; final=add_extra_columns(final, dt)
-        st.success(f"Ho gaya! {len(uploaded_jazz)} files, Total {len(final)} calls, {final['A Party'].nunique()} alag numbers")
+        st.success(f"Done! {len(uploaded_jazz)} files, Total {len(final)} calls, {final['A Party'].nunique()} alag numbers")
         download_section(final, "Jazz_Cleaned.xlsx")
 
 # ==================== TAB 3 - TELENOR BTS ====================
@@ -928,7 +928,7 @@ if selected_tab == 2 and st.session_state.mode == "BTS":
                 else: merged.append(t.title())
             tmp["Call Type"]=merged; tmp["A Party"]=df["MSISDN"].apply(clean_number); tmp["B Party"]=df["CALL_DIALED_NUM"].apply(clean_number) if "CALL_DIALED_NUM" in df.columns else df["CALL_ORIG_NUM"].apply(clean_number); tmp["Date"]=dt.dt.strftime("%d-%m-%y"); tmp["Time"]=dt.dt.strftime("%H:%M:%S"); tmp["Duration"]=pd.to_numeric(df["Call_Network_Volume"], errors="coerce").fillna(0).astype(int); tmp["IMEI"]=df["IMEI"]; tmp["LAC"]=df["Lac_Id"]; tmp["Cell ID"]=df["Site_Id"]; tmp["Network"]="TELENOR"; tmp["_dt"]=dt; all_final.append(tmp)
         final=pd.concat(all_final, ignore_index=True); dt_all=final["_dt"]; final=final.drop(columns=["_dt"]); final=add_extra_columns(final, dt_all)
-        st.success(f"Ho gaya! {len(uploaded_telenor)} files, Total {len(final)} calls, {final['A Party'].nunique()} alag numbers")
+        st.success(f"Done! {len(uploaded_telenor)} files, Total {len(final)} calls, {final['A Party'].nunique()} alag numbers")
         download_section(final, "Telenor_Cleaned.xlsx")
 
 # ==================== TAB 4 - ZONG BTS ====================
@@ -959,7 +959,7 @@ if selected_tab == 3 and st.session_state.mode == "BTS":
             elif str(b).strip() != "" and str(b).lower() != "nan": merged_imei.append(str(b).strip())
             else: merged_imei.append("")
         final["IMEI"]=merged_imei; final["LAC"]=df["LAC_ID"]; final["Cell ID"]=df["CELL_ID"]; final["Network"]="ZONG"; final=add_extra_columns(final, dt)
-        st.success(f"Ho gaya! {len(uploaded_zong)} files, Total {len(final)} calls, {final['A Party'].nunique()} alag numbers")
+        st.success(f"Done! {len(uploaded_zong)} files, Total {len(final)} calls, {final['A Party'].nunique()} alag numbers")
         download_section(final, "Zong_Cleaned.xlsx")
 
 # ==================== TAB 5 - ALL BTS ====================
@@ -996,7 +996,7 @@ if selected_tab == 4 and st.session_state.mode == "BTS":
             merged=pd.concat(all_final, ignore_index=True); total_before=len(merged)
             if use_filter:
                 mask=(merged["_dt"].dt.date==filter_date)&(merged["_dt"].dt.time>=start_time)&(merged["_dt"].dt.time<=end_time); merged=merged[mask]; st.success(f"Filter Laga! Pura: {total_before} | Filter ke baad: {len(merged)}")
-            else: st.success(f"Ho gaya! {len(uploaded_all)} files, Total {len(merged)} calls")
+            else: st.success(f"Done! {len(uploaded_all)} files, Total {len(merged)} calls")
             if len(merged)>0:
                 dt_all=merged["_dt"]; final=merged.drop(columns=["_dt"]); final=add_extra_columns(final, dt_all); st.dataframe(final.groupby("Network").agg(Total_Calls=("Call Type","count")).reset_index()); download_section(final, "All_BTS_Merged.xlsx")
 
@@ -1015,7 +1015,7 @@ if selected_tab == 0 and st.session_state.mode == "CDR":
         if raws:
             raw_all = pd.concat(raws, ignore_index=True)
             raw_out, cdr_data, summary, loc_sum, imei_sum, night_sum = build_cdr_ufone_output(raw_all)
-            st.success(f"Ho gaya! Total {len(cdr_data)} rows | Summary me {len(summary)} alag B numbers")
+            st.success(f"Done! Total {len(cdr_data)} rows | Summary me {len(summary)} alag B numbers")
             output = io.BytesIO()
             with pd.ExcelWriter(output, engine="openpyxl") as writer:
                 raw_out.to_excel(writer, index=False, sheet_name="Raw Data")
@@ -1047,7 +1047,7 @@ if selected_tab == 1 and st.session_state.mode == "CDR":
         if raws:
             raw_all = pd.concat(raws, ignore_index=True)
             raw_out, cdr_data, summary, loc_sum, imei_sum, night_sum = build_cdr_jazz_output(raw_all)
-            st.success(f"Ho gaya! Total {len(cdr_data)} rows | Summary me {len(summary)} alag B numbers")
+            st.success(f"Done! Total {len(cdr_data)} rows | Summary me {len(summary)} alag B numbers")
             output = io.BytesIO()
             with pd.ExcelWriter(output, engine="openpyxl") as writer:
                 raw_out.to_excel(writer, index=False, sheet_name="Raw Data")
@@ -1223,7 +1223,7 @@ if selected_tab == 2 and st.session_state.mode == "CDR":
             raw_all = pd.concat(pars, ignore_index=True)
             raw_disp = pd.concat(raws, ignore_index=True)
             raw_out, cdr_data, summary, loc_sum, imei_sum, night_sum = build_cdr_telenor_output(raw_all)
-            st.success(f"Ho gaya! Total {len(cdr_data)} rows | Summary me {len(summary)} alag B numbers")
+            st.success(f"Done! Total {len(cdr_data)} rows | Summary me {len(summary)} alag B numbers")
             output = io.BytesIO()
             with pd.ExcelWriter(output, engine="openpyxl") as writer:
                 raw_disp.to_excel(writer, index=False, sheet_name="Raw Data")
@@ -1410,7 +1410,7 @@ if selected_tab == 3 and st.session_state.mode == "CDR":
             raw_all = pd.concat(pars, ignore_index=True)
             raw_disp = pd.concat(raws, ignore_index=True)
             raw_out, cdr_data, summary, loc_sum, imei_sum, night_sum = build_cdr_zong_output(raw_all)
-            st.success(f"Ho gaya! Total {len(cdr_data)} rows | Summary me {len(summary)} alag B numbers")
+            st.success(f"Done! Total {len(cdr_data)} rows | Summary me {len(summary)} alag B numbers")
             output = io.BytesIO()
             with pd.ExcelWriter(output, engine="openpyxl") as writer:
                 raw_disp.to_excel(writer, index=False, sheet_name="Raw Data")
