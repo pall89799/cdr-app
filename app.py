@@ -1732,7 +1732,7 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
     def _parse_ufone_cdr(df):
         _dt_col = next((c for c in ["Start Time", "StartTime", "Date Time", "Datetime", "Call Time", "Date"] if c in df.columns), None)
         if _dt_col is not None:
-            dt = pd.to_datetime(df[_dt_col], errors="coerce", dayfirst=True)
+            dt = pd.to_datetime(df[_dt_col].astype(str).str.strip(), errors="coerce", format="%d-%m-%y %H:%M", dayfirst=True)
         else:
             dt = pd.Series(pd.NaT, index=df.index)
         out = pd.DataFrame()
