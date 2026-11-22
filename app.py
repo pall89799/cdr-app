@@ -1015,7 +1015,7 @@ if selected_tab == 0 and st.session_state.mode == "CDR":
         if raws:
             raw_all = pd.concat(raws, ignore_index=True)
             raw_out, cdr_data, summary, loc_sum, imei_sum, night_sum = build_cdr_ufone_output(raw_all)
-            st.success(f"Done! Total {len(cdr_data)} rows | Summary me {len(summary)} alag B numbers")
+            st.success(f"Done! Total {len(cdr_data)} rows | Summary me {len(summary)} unique B numbers")
             output = io.BytesIO()
             with pd.ExcelWriter(output, engine="openpyxl") as writer:
                 raw_out.to_excel(writer, index=False, sheet_name="Raw Data")
@@ -1024,8 +1024,8 @@ if selected_tab == 0 and st.session_state.mode == "CDR":
                 loc_sum.to_excel(writer, index=False, sheet_name="Location Summary")
                 imei_sum.to_excel(writer, index=False, sheet_name="IMEI Summary")
                 night_sum.to_excel(writer, index=False, sheet_name="Night Stay")
-            st.download_button(label="📥 CDR Ufone Standardized Excel Download Karo - 6 Sheets - No Addresses", data=output.getvalue(), file_name="Ufone_CDR_Standardized.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-            st.write("**Preview - CDR Data - 12 Column**"); st.dataframe(cdr_data.head(20))
+            st.download_button(label="📥 CDR Ufone Standardized Download the Excel file - 6 Sheets - No Addresses", data=output.getvalue(), file_name="Ufone_CDR_Standardized.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            st.write("**Preview - CDR Data**"); st.dataframe(cdr_data.head(20))
             c1,c2,c3 = st.columns(3)
             with c1: st.write("**Summary - No DATA, No Total Locations**"); st.dataframe(summary)
             with c2: st.write("**Location Summary - No DATA**"); st.dataframe(loc_sum)
@@ -1047,7 +1047,7 @@ if selected_tab == 1 and st.session_state.mode == "CDR":
         if raws:
             raw_all = pd.concat(raws, ignore_index=True)
             raw_out, cdr_data, summary, loc_sum, imei_sum, night_sum = build_cdr_jazz_output(raw_all)
-            st.success(f"Done! Total {len(cdr_data)} rows | Summary me {len(summary)} alag B numbers")
+            st.success(f"Done! Total {len(cdr_data)} rows | Summary me {len(summary)} unique B numbers")
             output = io.BytesIO()
             with pd.ExcelWriter(output, engine="openpyxl") as writer:
                 raw_out.to_excel(writer, index=False, sheet_name="Raw Data")
@@ -1056,8 +1056,8 @@ if selected_tab == 1 and st.session_state.mode == "CDR":
                 loc_sum.to_excel(writer, index=False, sheet_name="Location Summary")
                 imei_sum.to_excel(writer, index=False, sheet_name="IMEI Summary")
                 night_sum.to_excel(writer, index=False, sheet_name="Night Stay")
-            st.download_button(label="📥 CDR Jazz Standardized Excel Download Karo - 6 Sheets - No Addresses", data=output.getvalue(), file_name="Jazz_CDR_Standardized.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-            st.write("**Preview - CDR Data - 12 Column**"); st.dataframe(cdr_data.head(20))
+            st.download_button(label="📥 CDR Jazz Standardized Download the Excel file - 6 Sheets - No Addresses", data=output.getvalue(), file_name="Jazz_CDR_Standardized.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            st.write("**Preview - CDR Data**"); st.dataframe(cdr_data.head(20))
             c1,c2,c3 = st.columns(3)
             with c1: st.write("**Summary - No DATA, No Total Locations**"); st.dataframe(summary)
             with c2: st.write("**Location Summary - No DATA**"); st.dataframe(loc_sum)
@@ -1223,7 +1223,7 @@ if selected_tab == 2 and st.session_state.mode == "CDR":
             raw_all = pd.concat(pars, ignore_index=True)
             raw_disp = pd.concat(raws, ignore_index=True)
             raw_out, cdr_data, summary, loc_sum, imei_sum, night_sum = build_cdr_telenor_output(raw_all)
-            st.success(f"Done! Total {len(cdr_data)} rows | Summary me {len(summary)} alag B numbers")
+            st.success(f"Done! Total {len(cdr_data)} rows | Summary me {len(summary)} unique B numbers")
             output = io.BytesIO()
             with pd.ExcelWriter(output, engine="openpyxl") as writer:
                 raw_disp.to_excel(writer, index=False, sheet_name="Raw Data")
@@ -1233,8 +1233,8 @@ if selected_tab == 2 and st.session_state.mode == "CDR":
                 imei_sum.to_excel(writer, index=False, sheet_name="IMEI Summary")
                 night_sum.to_excel(writer, index=False, sheet_name="Night Stay")
                 blue_fill = PatternFill(start_color="4472C4", end_color="4472C4", fill_type="solid")
-            st.download_button(label="📥 CDR Telenor Standardized Excel Download Karo - 6 Sheets", data=output.getvalue(), file_name="Telenor_CDR_Standardized.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-            st.write("**Preview - CDR Data - 12 Column**")
+            st.download_button(label="📥 CDR Telenor Standardized Download the Excel file - 6 Sheets", data=output.getvalue(), file_name="Telenor_CDR_Standardized.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            st.write("**Preview - CDR Data**")
             st.dataframe(cdr_data.head(20))
             c1, c2, c3 = st.columns(3)
             with c1:
@@ -1410,7 +1410,7 @@ if selected_tab == 3 and st.session_state.mode == "CDR":
             raw_all = pd.concat(pars, ignore_index=True)
             raw_disp = pd.concat(raws, ignore_index=True)
             raw_out, cdr_data, summary, loc_sum, imei_sum, night_sum = build_cdr_zong_output(raw_all)
-            st.success(f"Done! Total {len(cdr_data)} rows | Summary me {len(summary)} alag B numbers")
+            st.success(f"Done! Total {len(cdr_data)} rows | Summary me {len(summary)} unique B numbers")
             output = io.BytesIO()
             with pd.ExcelWriter(output, engine="openpyxl") as writer:
                 raw_disp.to_excel(writer, index=False, sheet_name="Raw Data")
@@ -1419,8 +1419,8 @@ if selected_tab == 3 and st.session_state.mode == "CDR":
                 loc_sum.to_excel(writer, index=False, sheet_name="Location Summary")
                 imei_sum.to_excel(writer, index=False, sheet_name="IMEI Summary")
                 night_sum.to_excel(writer, index=False, sheet_name="Night Stay")
-            st.download_button(label="📥 CDR Zong Standardized Excel Download Karo - 6 Sheets", data=output.getvalue(), file_name="Zong_CDR_Standardized.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-            st.write("**Preview - CDR Data - 12 Column**")
+            st.download_button(label="📥 CDR Zong Standardized Download the Excel file - 6 Sheets", data=output.getvalue(), file_name="Zong_CDR_Standardized.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            st.write("**Preview - CDR Data**")
             st.dataframe(cdr_data.head(20))
             c1, c2, c3 = st.columns(3)
             with c1:
