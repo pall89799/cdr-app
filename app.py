@@ -359,16 +359,20 @@ def add_extra_columns(final, df_dt):
     return final[["Call Type","A Party","B Party","Date","Time","Duration","IMEI","LAC","Cell ID","First Seen","Last Seen","Total Activity","Total Duration","A Party in B Party","Network"]]
 
 def download_section(final, filename):
+    from openpyxl.worksheet.table import Table, TableStyleInfo
+    from openpyxl.utils import get_column_letter
     output = io.BytesIO()
     with pd.ExcelWriter(output, engine="openpyxl") as writer:
         final.to_excel(writer, index=False, sheet_name="Cleaned")
-        # Header ko Grey karo
         ws = writer.sheets["Cleaned"]
-        grey_fill = PatternFill(start_color="4472c4", end_color="4472c4", fill_type="solid")
-        for cell in ws[1]:
-            cell.fill = grey_fill
-            cell.font = Font(bold=True, color="FFFFFF")
-            cell.alignment = Alignment(horizontal="center", vertical="center")
+        if len(final) > 0 and len(final.columns) > 0:
+            last_col = get_column_letter(len(final.columns))
+            last_row = len(final) + 1
+            tab = Table(displayName="CleanedTable", ref=f"A1:{last_col}{last_row}")
+            tab.tableStyleInfo = TableStyleInfo(name="TableStyleMedium9", showFirstColumn=False, showLastColumn=False, showRowStripes=True, showColumnStripes=False)
+            ws.add_table(tab)
+        ws.freeze_panes = "A2"
+        ws.sheet_properties.pageSetUpPr.fitToPage = True
     st.download_button(label="📥 Cleaned Excel (XLSX) Download Karo", data=output.getvalue(), file_name=filename, mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     st.dataframe(final)
 
