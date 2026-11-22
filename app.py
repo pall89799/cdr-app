@@ -1614,6 +1614,8 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
             return "JAZZ"
         if "a number" in colset and "cell sector" in colset:
             return "UFONE"
+        if "msisdn" in colset and "start time" in colset:
+            return "UFONE"    
         if "call_dialed_num" in colset and "call_start_dt_tm" in colset:
             return "TELENOR"
         if "sitelocation" in colset or "longitude and latitude" in colset:
