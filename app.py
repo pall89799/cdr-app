@@ -1424,10 +1424,10 @@ if selected_tab == 3 and st.session_state.mode == "CDR":
             st.dataframe(cdr_data.head(20))
             c1, c2, c3 = st.columns(3)
             with c1:
-                st.write("**Summary**")
+                st.write("**Summary by Numbers**")
                 st.dataframe(summary)
             with c2:
-                st.write("**Location Summary**")
+                st.write("**Summary by Location**")
                 st.dataframe(loc_sum)
             with c3:
                 st.write("**IMEI Summary**")
