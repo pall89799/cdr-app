@@ -1540,9 +1540,9 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
         if s.startswith("640") and len(s) >= 14:
             s = s[3:13]
         if len(s) > 11:
-            m = _re.search(r"03\d{9}", s)
-        if m:
-            s = m.group(0)
+            mm = _re.search(r"03\d{9}", s)
+        if mm:
+            s = mm.group(0)
         else:
             s = s[:11]
         return s
