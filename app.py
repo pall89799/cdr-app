@@ -1537,16 +1537,22 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
             s = s[2:]
         elif s.startswith("0") and len(s) > 10:
             s = s[1:]
-        if s.startswith("380") and len(s) == 13:
+        if s.startswith("640") and len(s) >= 13:
             s = s[3:13]
-        elif s.startswith("640") and len(s) == 13:
+        elif s.startswith("380") and len(s) >= 13:
             s = s[3:13]
-        if len(s) > 11:
-            mm = _re.search(r"03\d{9}", s)
+        if s.startswith("2") and len(s) == 11:
+            s = s[1:]
+        if len(s) > 10:
+            mm = _re.search(r"3\d{9}", s)
             if mm:
                 s = mm.group(0)
-            else:
-                s = s[-11:]
+            elif len(s) > 11:
+                mm2 = _re.search(r"03\d{9}", s)
+                if mm2:
+                    s = mm2.group(0)
+                else:
+                    s = s[-11:]
         return s
 
     def _make_call_type(raw_type, direction=""):
