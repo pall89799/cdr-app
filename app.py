@@ -222,7 +222,7 @@ st.markdown("""
 
 
 st.write("---")
-st.write("Ufone / Jazz / Telenor / Zong - Tab select karo, file dalo, download")
+st.write("Ufone / Jazz / Telenor / Zong - select Tab, select file, download")
 
 if "mode" not in st.session_state:
     st.session_state.mode = "CDR"
@@ -874,7 +874,7 @@ def build_cdr_jazz_output(raw_df):
 # ==================== TAB 1 - UFONE BTS - .txt ====================
 if selected_tab == 0 and st.session_state.mode == "BTS":
     st.subheader("Ufone - .txt files")
-    uploaded_files = st.file_uploader("Ufone ki .txt files yahan dalo", type=["txt"], accept_multiple_files=True, key="ufone")
+    uploaded_files = st.file_uploader("Upload Ufone .txt files", type=["txt"], accept_multiple_files=True, key="ufone")
     if uploaded_files:
         all_dfs=[]
         for uploaded in uploaded_files:
@@ -889,7 +889,7 @@ if selected_tab == 0 and st.session_state.mode == "BTS":
 # ==================== TAB 2 - JAZZ BTS ====================
 if selected_tab == 1 and st.session_state.mode == "BTS":
     st.subheader("Jazz - .xlsx files")
-    uploaded_jazz = st.file_uploader("Jazz ki .xlsx files yahan dalo", type=["xlsx","xls"], accept_multiple_files=True, key="jazz")
+    uploaded_jazz = st.file_uploader("Upload Jazz .xlsx files", type=["xlsx","xls"], accept_multiple_files=True, key="jazz")
     if uploaded_jazz:
         all_dfs=[]
         for uploaded in uploaded_jazz:
@@ -912,7 +912,7 @@ if selected_tab == 1 and st.session_state.mode == "BTS":
 # ==================== TAB 3 - TELENOR BTS ====================
 if selected_tab == 2 and st.session_state.mode == "BTS":
     st.subheader("Telenor - .csv files")
-    uploaded_telenor = st.file_uploader("Telenor ki Incoming + Outgoing .csv files yahan dalo", type=["csv"], accept_multiple_files=True, key="telenor")
+    uploaded_telenor = st.file_uploader("Upload Telenor Incoming + Outgoing .csv files", type=["csv"], accept_multiple_files=True, key="telenor")
     if uploaded_telenor:
         all_final=[]
         for uploaded in uploaded_telenor:
@@ -934,7 +934,7 @@ if selected_tab == 2 and st.session_state.mode == "BTS":
 # ==================== TAB 4 - ZONG BTS ====================
 if selected_tab == 3 and st.session_state.mode == "BTS":
     st.subheader("Zong - .xlsx files")
-    uploaded_zong = st.file_uploader("Zong ki .xlsx files yahan dalo", type=["xlsx","xls"], accept_multiple_files=True, key="zong")
+    uploaded_zong = st.file_uploader("Upload Zong .xlsx files", type=["xlsx","xls"], accept_multiple_files=True, key="zong")
     if uploaded_zong:
         all_dfs=[]
         for uploaded in uploaded_zong:
@@ -971,7 +971,7 @@ if selected_tab == 4 and st.session_state.mode == "BTS":
     with c2: start_time=st.time_input("Start Time", value=pd.to_datetime("00:00").time())
     with c3: end_time=st.time_input("End Time", value=pd.to_datetime("23:59").time())
     with c4: use_filter=st.checkbox("Date + Time Filter Lagao", value=False)
-    uploaded_all=st.file_uploader("All BTS files yahan dalo - txt / xlsx / csv", type=["txt","xlsx","xls","csv"], accept_multiple_files=True, key="all_bts")
+    uploaded_all=st.file_uploader("Upload All BTS files - txt / xlsx / csv", type=["txt","xlsx","xls","csv"], accept_multiple_files=True, key="all_bts")
     if uploaded_all:
         all_final=[]
         for uploaded in uploaded_all:
@@ -1004,7 +1004,7 @@ if selected_tab == 4 and st.session_state.mode == "BTS":
 if selected_tab == 0 and st.session_state.mode == "CDR":
     st.subheader("CDR - Ufone - Standardized")
     st.info("Ufone CDR Raw - .xlsx / .csv")
-    up = st.file_uploader("Ufone CDR Raw dalo - .xlsx / .csv", type=["xlsx","xls","csv"], accept_multiple_files=True, key="cdr_ufone")
+    up = st.file_uploader("Upload Ufone CDR Raw - .xlsx / .csv", type=["xlsx","xls","csv"], accept_multiple_files=True, key="cdr_ufone")
     if up:
         raws=[]
         for f in up:
@@ -1036,7 +1036,7 @@ if selected_tab == 0 and st.session_state.mode == "CDR":
 if selected_tab == 1 and st.session_state.mode == "CDR":
     st.subheader("CDR - Jazz - Standardized")
     st.info("Jazz CDR Raw - .xlsx / .csv")
-    upj = st.file_uploader("Jazz CDR Raw dalo - .xlsx / .csv", type=["xlsx","xls","csv"], accept_multiple_files=True, key="cdr_jazz")
+    upj = st.file_uploader("Upload Jazz CDR Raw - .xlsx / .csv", type=["xlsx","xls","csv"], accept_multiple_files=True, key="cdr_jazz")
     if upj:
         raws=[]
         for f in upj:
@@ -1211,7 +1211,7 @@ def build_cdr_telenor_output(raw_df):
 if selected_tab == 2 and st.session_state.mode == "CDR":
     st.subheader("CDR - Telenor - Standardized")
     st.info("Telenor CDR Raw")
-    up = st.file_uploader("Telenor CDR dalo - .csv / .xlsx", type=["csv","xlsx","xls"], accept_multiple_files=True, key="cdr_telenor")
+    up = st.file_uploader("Upload Telenor CDR - .csv / .xlsx", type=["csv","xlsx","xls"], accept_multiple_files=True, key="cdr_telenor")
     if up:
         raws = []
         pars = []
@@ -1397,7 +1397,7 @@ def build_cdr_zong_output(raw_df):
 if selected_tab == 3 and st.session_state.mode == "CDR":
     st.subheader("CDR - Zong - Standardized")
     st.info("Zong CDR")
-    up = st.file_uploader("Zong CDR Raw dalo - .xlsx / .csv", type=["xlsx","xls","csv"], accept_multiple_files=True, key="cdr_zong")
+    up = st.file_uploader("Upload Zong CDR Raw - .xlsx / .csv", type=["xlsx","xls","csv"], accept_multiple_files=True, key="cdr_zong")
     if up:
         raws = []
         pars = []
@@ -1445,7 +1445,7 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
     st.subheader("📞 ALL CDR - Master File - 5 Sheets")
     st.info("Ufone + Jazz + Telenor + Zong CDR Master File - 5 Sheets in One.")
 
-    all_cdr_files = st.file_uploader("All CDR Files Dalo - xlsx / xls / csv", type=["xlsx", "xls", "csv"], accept_multiple_files=True, key="all_cdr_master")
+    all_cdr_files = st.file_uploader("Upload All CDR Files - xlsx / xls / csv", type=["xlsx", "xls", "csv"], accept_multiple_files=True, key="all_cdr_master")
 
     import re as _re
 
