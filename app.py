@@ -1733,10 +1733,10 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
         _dt_col = next((c for c in ["Start Time", "StartTime", "Date Time", "Datetime", "Call Time", "Date"] if c in df.columns), None)
         if _dt_col is not None:
         # Agar Excel ne pehle se Date bana diya hai to waisa hi le lo, warna Ufone wala format parho
-        if pd.api.types.is_datetime64_any_dtype(df[_dt_col]):
-            dt = df[_dt_col]
-        else:
-            dt = pd.to_datetime(df[_dt_col].astype(str).str.strip(), errors="coerce", format="%d-%m-%y %H:%M")
+            if pd.api.types.is_datetime64_any_dtype(df[_dt_col]):
+                dt = df[_dt_col]
+            else:
+                dt = pd.to_datetime(df[_dt_col].astype(str).str.strip(), errors="coerce", format="%d-%m-%y %H:%M")
         else:
             dt = pd.Series(pd.NaT, index=df.index)
         out = pd.DataFrame()
