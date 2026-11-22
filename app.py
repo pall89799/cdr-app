@@ -1816,8 +1816,7 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
                 all_final.append(clean)
                 # Start-End Date nikalna
                 try:
-                    _is_dayfirst = net not in ["ZONG", "JAZZ"]
-                    _dates = pd.to_datetime(clean["Date"], errors="coerce", dayfirst=_is_dayfirst, format="mixed").dropna()
+                    _dates = pd.to_datetime(clean["Date"], errors="coerce", dayfirst=True).dropna()
                     _s = _dates.min().strftime("%d-%m-%Y") if len(_dates) else "?"
                     _e = _dates.max().strftime("%d-%m-%Y") if len(_dates) else "?"
                 except:
