@@ -93,6 +93,42 @@ div[data-testid="stFileUploader"] button {{
 div[data-testid="stFileUploader"] button:hover {{
     transform: translateY(-2px) !important;
 }}
+/* --- Date / Start / End ke LABEL - rangin --- */
+div[data-testid="stDateInput"] label p,
+div[data-testid="stTimeInput"] label p {{
+    color: #1d4ed8 !important;
+    font-weight: 900 !important;
+    font-size: 16px !important;
+}}
+
+/* --- Date / Start / End ke DABAY - zyada rangin --- */
+div[data-testid="stDateInput"] div[data-baseweb="input"],
+div[data-testid="stTimeInput"] div[data-baseweb="input"] {{
+    background: linear-gradient(135deg, #dbeafe, #c4b5fd) !important;
+    border: 2.5px solid #7c3aed !important;
+    border-radius: 14px !important;
+    box-shadow: 0 5px 0 #4c1d95, 0 8px 15px rgba(124,58,237,0.30) !important;
+}}
+div[data-testid="stDateInput"] input,
+div[data-testid="stTimeInput"] input {{
+    background: transparent !important;
+    color: #1e1b4b !important;
+    font-weight: 800 !important;
+    font-size: 16px !important;
+}}
+
+/* --- Upload wala bara DABA - ab Purple / Pink --- */
+div[data-testid="stFileUploader"] section {{
+    background: linear-gradient(135deg, #fdf4ff, #fce7f3, #e0e7ff) !important;
+    border: 3px solid #d946ef !important;
+    border-radius: 18px !important;
+    box-shadow: 0 6px 0 #a21caf, 0 10px 20px rgba(217,70,239,0.35) !important;
+}}
+div[data-testid="stFileUploader"] label p {{
+    color: #a21caf !important;
+    font-weight: 900 !important;
+    font-size: 16px !important;
+}}
 </style>
 """, unsafe_allow_html=True)
 
