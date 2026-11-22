@@ -1821,8 +1821,8 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
                         _dates = pd.to_datetime(_clean_date, errors="coerce", format="%m-%d-%y").dropna()
                     else:
                         _dates = pd.to_datetime(_clean_date, errors="coerce", format="%d-%m-%y").dropna()
-                    _s = _dates.min().strftime("%d-%m-%Y") if len(_dates) else "?"
-                    _e = _dates.max().strftime("%d-%m-%Y") if len(_dates) else "?"
+                    _s = _dates.min().strftime("%m-%d-%Y") if len(_dates) else "?"
+                    _e = _dates.max().strftime("%m-%d-%Y") if len(_dates) else "?"
                 except:
                     _s = _e = "?"
                 st.success(f"✅ {f.name} -> {net} - {len(clean)} rows | {_s} to {_e}")
