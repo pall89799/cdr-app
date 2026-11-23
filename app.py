@@ -165,6 +165,20 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
     border: none !important;
     box-shadow: 0 5px 15px rgba(255,122,0,0.35) !important;
 }}
+/* --- Oopar-Neeche Slide Bar --- */
+::-webkit-scrollbar {{
+    width: 14px !important;
+    height: 14px !important;
+}}
+::-webkit-scrollbar-track {{
+    background: #E8F0FF !important;
+    border-radius: 10px !important;
+}}
+::-webkit-scrollbar-thumb {{
+    background: linear-gradient(180deg, #1E6BFF, #FF7A00) !important;
+    border-radius: 10px !important;
+    border: 2px solid #E8F0FF !important;
+}}
 </style>
 """, unsafe_allow_html=True)
 
