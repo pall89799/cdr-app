@@ -165,19 +165,23 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
     border: none !important;
     box-shadow: 0 5px 15px rgba(255,122,0,0.35) !important;
 }}
-/* --- Oopar-Neeche Slide Bar --- */
-::-webkit-scrollbar {{
+/* --- Table ke andar Oopar-Neeche wali Slide Bar - Pakki wali --- */
+div[data-testid="stDataFrame"] > div {{
+    max-height: 500px !important;
+    overflow-y: scroll !important;
+    overflow-x: scroll !important;
+}}
+div[data-testid="stDataFrame"] > div::-webkit-scrollbar {{
     width: 14px !important;
     height: 14px !important;
+    display: block !important;
 }}
-::-webkit-scrollbar-track {{
+div[data-testid="stDataFrame"] > div::-webkit-scrollbar-thumb {{
+    background: #1E6BFF !important;
+    border-radius: 10px !important;
+}}
+div[data-testid="stDataFrame"] > div::-webkit-scrollbar-track {{
     background: #E8F0FF !important;
-    border-radius: 10px !important;
-}}
-::-webkit-scrollbar-thumb {{
-    background: linear-gradient(180deg, #1E6BFF, #FF7A00) !important;
-    border-radius: 10px !important;
-    border: 2px solid #E8F0FF !important;
 }}
 </style>
 """, unsafe_allow_html=True)
