@@ -120,7 +120,17 @@ div[data-testid="stFileUploader"] label p {{
     font-size: 16px !important;
 }}
 /* --- LOGIN PAGE BEAUTIFUL --- */
-.stButton > button {
+.stApp {{
+    background: linear-gradient(135deg, #E8F0FF 0%, #FFF2E6 100%) !important;
+}}
+.stTextInput input {{
+    background-color: white !important;
+    border-radius: 12px !important;
+    border: 2px solid #D6E4FF !important;
+    padding: 12px 15px !important;
+    font-size: 16px !important;
+}}
+.stButton > button {{
     background: linear-gradient(90deg, #1E6BFF, #FF7A00) !important;
     color: white !important;
     font-size: 18px !important;
@@ -130,7 +140,7 @@ div[data-testid="stFileUploader"] label p {{
     border: none !important;
     box-shadow: 0 5px 15px rgba(30,107,255,0.35) !important;
     width: 100% !important;
-}
+}}
 </style>
 """, unsafe_allow_html=True)
 
