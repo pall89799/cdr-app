@@ -29,23 +29,6 @@ div[data-testid="stVerticalBlock"] > div:nth-child(2) div[data-testid="stHorizon
     padding: 12px 20px !important;
     box-shadow: 0px 4px 12px rgba(0,0,0,0.20) !important;
 }}
-/* Nechy waly 5 Tabs */
-div[data-testid="stTabs"] button[role="tab"] {{
-    background-color: #F1F4F9 !important;
-    color: #555555 !important;
-    border-radius: 12px !important;
-    padding: 8px 18px !important;
-    font-weight: 600 !important;
-    border: 1px solid #D9DEE8 !important;
-}}
-/* Jo Tab SELECT ho */
-div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
-    background-color: {active_color} !important;
-    color: white !important;
-    border: 1px solid {active_color} !important;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.25) !important;
-    transform: scale(1.05) !important;
-}}
 div[data-testid="stDateInput"] input,
 div[data-testid="stTimeInput"] input {{
     background: linear-gradient(135deg, #e0f2fe, #ffffff) !important;
