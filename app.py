@@ -1866,7 +1866,7 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
               <tr style="background:#f8f9fa;"><td>🔴 <span class="badge" style="background:#e30613;">JAZZ</span> &nbsp; Jazz Total CDRs</td><td style="text-align:right;">{_jazz:,}</td></tr>
               <tr style="background:#eef2f7;"><td><b>⭐ TOTAL</b></td><td style="text-align:right;"><b>{_total:,}</b></td></tr>
     </table>
-    """, unsafe_allow_html=True)
+    """)
 
             # ---------- Sheet 2 - Common A Party ----------
             g_a = full.groupby("A Party").agg(
