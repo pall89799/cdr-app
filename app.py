@@ -198,7 +198,25 @@ def hash_pass(p):
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
     st.session_state.user = None   
-    
+def show_page_table(df, key, rows_per_page=50):
+    if key not in st.session_state:
+        st.session_state[key] = 0
+    total_pages = max(1, (len(df) + rows_per_page - 1) // rows_per_page)
+    page = st.session_state[key]
+    start = page * rows_per_page
+    end = start + rows_per_page
+    st.dataframe(df.iloc[start:end], use_container_width=True)
+    c1, c2, c3 = st.columns([1, 2, 1])
+    with c1:
+        if st.button("Previous", key=key+"_prev") and page > 0:
+            st.session_state[key] -= 1
+            st.rerun()
+    with c2:
+        st.write(f"Page {page+1} / {total_pages}")
+    with c3:
+        if st.button("Next", key=key+"_next") and page < total_pages - 1:
+            st.session_state[key] += 1
+            st.rerun()    
 # ===== SIRF LOGIN + SIGNUP + APPROVAL, BAS =====
 if not st.session_state.logged_in:
     st.title("🔐 CDR-BTS Login")
