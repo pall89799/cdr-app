@@ -1843,28 +1843,28 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
             master = full.drop(columns=["_File", "_Net"])
 
             st.success(f"🎯 Master File Ready: {len(master)} rows - 5 Sheets")
-                # --- Operator Summary Table ---
-    _net_counts = full["_Net"].value_counts()
-    _zong = int(_net_counts.get("ZONG", 0))
-    _ufone = int(_net_counts.get("UFONE", 0))
-    _telenor = int(_net_counts.get("TELENOR", 0))
-    _jazz = int(_net_counts.get("JAZZ", 0))
-    _total = _zong + _ufone + _telenor + _jazz
-    st.markdown(f"""
+            # --- Operator Summary Table ---
+            _net_counts = full["_Net"].value_counts()
+            _zong = int(_net_counts.get("ZONG", 0))
+            _ufone = int(_net_counts.get("UFONE", 0))
+            _telenor = int(_net_counts.get("TELENOR", 0))
+            _jazz = int(_net_counts.get("JAZZ", 0))
+            _total = _zong + _ufone + _telenor + _jazz
+            st.markdown(f"""
     <style>
-    .op-table {{ width:100%; border-collapse:separate; border-spacing:0; overflow:hidden; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.1); }}
-    .op-table th {{ background:linear-gradient(90deg,#0f2027,#203a43,#2c5364); color:white; padding:14px; text-align:left; font-size:16px; }}
-    .op-table td {{ padding:13px 14px; font-size:16px; font-weight:600; border-bottom:1px solid #eee; }}
-    .op-table tr:last-child td {{ border-bottom:none; }}
-    .badge {{ padding:6px 14px; border-radius:20px; color:white; font-size:14px; }}
+            .op-table {{ width:100%; border-collapse:separate; border-spacing:0; overflow:hidden; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.1); }}
+            .op-table th {{ background:linear-gradient(90deg,#0f2027,#203a43,#2c5364); color:white; padding:14px; text-align:left; font-size:16px; }}
+            .op-table td {{ padding:13px 14px; font-size:16px; font-weight:600; border-bottom:1px solid #eee; }}
+            .op-table tr:last-child td {{ border-bottom:none; }}
+            .badge {{ padding:6px 14px; border-radius:20px; color:white; font-size:14px; }}
     </style>
-    <table class="op-table">
-      <tr><th>Network</th><th style="text-align:right;">Total CDRs</th></tr>
-      <tr><td>🟢 <span class="badge" style="background:#00a651;">ZONG</span> &nbsp; Zong Total CDRs</td><td style="text-align:right;">{_zong:,}</td></tr>
-      <tr style="background:#f8f9fa;"><td>🟠 <span class="badge" style="background:#ff6600;">UFONE</span> &nbsp; Ufone Total CDRs</td><td style="text-align:right;">{_ufone:,}</td></tr>
-      <tr><td>🔵 <span class="badge" style="background:#0070d1;">TELENOR</span> &nbsp; Telenor Total CDRs</td><td style="text-align:right;">{_telenor:,}</td></tr>
-      <tr style="background:#f8f9fa;"><td>🔴 <span class="badge" style="background:#e30613;">JAZZ</span> &nbsp; Jazz Total CDRs</td><td style="text-align:right;">{_jazz:,}</td></tr>
-      <tr style="background:#eef2f7;"><td><b>⭐ TOTAL</b></td><td style="text-align:right;"><b>{_total:,}</b></td></tr>
+            <table class="op-table">
+              <tr><th>Network</th><th style="text-align:right;">Total CDRs</th></tr>
+              <tr><td>🟢 <span class="badge" style="background:#00a651;">ZONG</span> &nbsp; Zong Total CDRs</td><td style="text-align:right;">{_zong:,}</td></tr>
+              <tr style="background:#f8f9fa;"><td>🟠 <span class="badge" style="background:#ff6600;">UFONE</span> &nbsp; Ufone Total CDRs</td><td style="text-align:right;">{_ufone:,}</td></tr>
+              <tr><td>🔵 <span class="badge" style="background:#0070d1;">TELENOR</span> &nbsp; Telenor Total CDRs</td><td style="text-align:right;">{_telenor:,}</td></tr>
+              <tr style="background:#f8f9fa;"><td>🔴 <span class="badge" style="background:#e30613;">JAZZ</span> &nbsp; Jazz Total CDRs</td><td style="text-align:right;">{_jazz:,}</td></tr>
+              <tr style="background:#eef2f7;"><td><b>⭐ TOTAL</b></td><td style="text-align:right;"><b>{_total:,}</b></td></tr>
     </table>
     """, unsafe_allow_html=True)
 
