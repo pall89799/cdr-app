@@ -10,7 +10,7 @@ active_color = "#1E6BFF" if st.session_state.mode == "CDR" else "#FF7A00"
 st.markdown(f"""
 <style>
 /* Pehla button (CDR) hamesha NEELA */
-div[data-testid="stVerticalBlock"] > div:nth-child(2) div[data-testid="stButton"]:nth-of-type(1) > button {{
+div[data-testid="stVerticalBlock"] > div:nth-child(2) div[data-testid="stHorizontalBlock"] > div:nth-child(1) div[data-testid="stButton"] > button {{
     background: linear-gradient(90deg, #1E6BFF, #00C6FF) !important;
     color: white !important;
     border-radius: 12px !important;
@@ -20,7 +20,7 @@ div[data-testid="stVerticalBlock"] > div:nth-child(2) div[data-testid="stButton"
     box-shadow: 0px 4px 12px rgba(0,0,0,0.20) !important;
 }}
 /* Dusra button (BTS) hamesha ORANGE */
-div[data-testid="stVerticalBlock"] > div:nth-child(2) div[data-testid="stButton"]:nth-of-type(2) > button {{
+div[data-testid="stVerticalBlock"] > div:nth-child(2) div[data-testid="stHorizontalBlock"] > div:nth-child(2) div[data-testid="stButton"] > button {{
     background: linear-gradient(90deg, #FF7A00, #FFB800) !important;
     color: white !important;
     border-radius: 12px !important;
