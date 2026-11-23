@@ -5,7 +5,7 @@ st.set_page_config(page_title="BTS Analyser", layout="wide")
 if "mode" not in st.session_state:
     st.session_state.mode = "CDR"
 
-active_color = "#1E6BFF" if st.session_state.mode == "CDR" else "#FF7A00"
+active_color = "#0F2A44"
 
 st.markdown(f"""
 <style>
