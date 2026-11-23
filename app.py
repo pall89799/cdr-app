@@ -29,16 +29,23 @@ div[data-testid="stVerticalBlock"] > div:nth-child(2) div[data-testid="stHorizon
     padding: 12px 20px !important;
     box-shadow: 0px 4px 12px rgba(0,0,0,0.20) !important;
 }}
-/* Nechy waly 5 Tabs */
+/* Login / Signup Button - Final */
 div[data-testid="stTabs"] button[role="tab"] {{
-    background-color: #F1F4F9 !important;
-    color: #555555 !important;
+    background-color: white !important;
+    color: #1A2B4A !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    padding: 10px 22px !important;
     border-radius: 12px !important;
-    padding: 8px 18px !important;
-    font-weight: 600 !important;
-    border: 1px solid #D9DEE8 !important;
+    border: 2px solid #D6E4FF !important;
+    margin-right: 8px !important;
 }}
-/* Jo Tab SELECT ho */
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
+    background: linear-gradient(90deg, #1E6BFF, #FF7A00) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 5px 15px rgba(255,122,0,0.35) !important;
+}}/* Jo Tab SELECT ho */
 div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
     background-color: {active_color} !important;
     color: white !important;
