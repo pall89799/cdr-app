@@ -12,15 +12,15 @@ st.markdown(f"""
 
 div[data-testid="stDateInput"] input,
 div[data-testid="stTimeInput"] input {{
-    background: linear-gradient(135deg, #e0f2fe, #ffffff) !important;
-    border: 2px solid #38bdf8 !important;
+    background: linear-gradient(135deg, #E8EEF3, #ffffff) !important;
+    border: 2px solid #0F2A44 !important;
     border-radius: 12px !important;
     font-weight: 600 !important;
     box-shadow: 0 4px 10px rgba(56,189,248,0.25) !important;
 }}
 
 div[data-testid="stCheckbox"] label {{
-    background: linear-gradient(135deg, #f59e0b, #ef4444) !important;
+    background: linear-gradient(135deg, #0F2A44, #5B2C6F) !important;
     color: white !important;
     padding: 10px 16px !important;
     border-radius: 12px !important;
