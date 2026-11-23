@@ -1853,7 +1853,7 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
             st.html(f"""
     <style>
             .op-table {{ width:100%; border-collapse:separate; border-spacing:0; overflow:hidden; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.1); }}
-            .op-table th {{ background:linear-gradient(90deg,#0f2027,#203a43,#2c5364); color:white; padding:14px; text-align:left; font-size:16px; }}
+            .op-table th {{ background:linear-gradient(90deg,#0f2027,#203a43,#2c5364); color:white; padding:14px; text-align:center; font-size:18px; }}
             .op-table td {{ padding:13px 14px; font-size:16px; font-weight:600; border-bottom:1px solid #eee; }}
             .op-table tr:last-child td {{ border-bottom:none; }}
             .badge {{ padding:6px 14px; border-radius:20px; color:white; font-size:14px; }}
