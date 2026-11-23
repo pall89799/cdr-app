@@ -1527,6 +1527,10 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
         s = str(x).strip() if x is not None else ""
         if s.lower() in ["", "nan", "none"]:
             return ""
+        if len(s) == 15 and s.isdigit():
+            return s
+        if len(s) == 14 and s.isdigit():
+            return s    
         if any(c.isalpha() for c in s):
             return s
         if s.startswith("0092"):
