@@ -141,18 +141,18 @@ div[data-testid="stFileUploader"] label p {{
     box-shadow: 0 5px 15px rgba(30,107,255,0.35) !important;
     width: 100% !important;
 }}
-/* Login / Signup wale Button */
-button[role="tab"] {{
+/* Login / Signup Button - Final */
+div[data-testid="stTabs"] button[role="tab"] {{
     background-color: white !important;
     color: #1A2B4A !important;
     font-size: 16px !important;
     font-weight: 700 !important;
-    padding: 10px 20px !important;
+    padding: 10px 22px !important;
     border-radius: 12px !important;
     border: 2px solid #D6E4FF !important;
     margin-right: 8px !important;
 }}
-button[role="tab"][aria-selected="true"] {{
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
     background: linear-gradient(90deg, #1E6BFF, #FF7A00) !important;
     color: white !important;
     border: none !important;
