@@ -1844,7 +1844,7 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
 
             st.success(f"🎯 Master File Ready: {len(master)} rows - 5 Sheets")
             # --- Operator Summary Table ---
-            _net_counts = full["_Net"].value_counts()
+            _net_counts = full.drop_duplicates(subset=["_File"])["_Net"].value_counts()
             _zong = int(_net_counts.get("ZONG", 0))
             _ufone = int(_net_counts.get("UFONE", 0))
             _telenor = int(_net_counts.get("TELENOR", 0))
