@@ -119,7 +119,7 @@ div[data-testid="stFileUploader"] label p {{
     font-weight: 900 !important;
     font-size: 16px !important;
 }}
-/* --- LOGIN PAGE BEAUTIFUL --- */
+/* --- LOGIN + SIGNUP FULL BEAUTIFUL --- */
 .stApp {{
     background: linear-gradient(135deg, #E8F0FF 0%, #FFF2E6 100%) !important;
 }}
@@ -140,6 +140,23 @@ div[data-testid="stFileUploader"] label p {{
     border: none !important;
     box-shadow: 0 5px 15px rgba(30,107,255,0.35) !important;
     width: 100% !important;
+}}
+/* Login / Signup wale Button */
+button[role="tab"] {{
+    background-color: white !important;
+    color: #1A2B4A !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    padding: 10px 20px !important;
+    border-radius: 12px !important;
+    border: 2px solid #D6E4FF !important;
+    margin-right: 8px !important;
+}}
+button[role="tab"][aria-selected="true"] {{
+    background: linear-gradient(90deg, #1E6BFF, #FF7A00) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 5px 15px rgba(255,122,0,0.35) !important;
 }}
 </style>
 """, unsafe_allow_html=True)
@@ -167,7 +184,7 @@ if not st.session_state.logged_in:
     st.title("🔐 CDR-BTS Login")
     tab1, tab2 = st.tabs(["Signup", "Login"])
     with tab1:
-        name = st.text_input("Pura Naam", key="s_name")
+        name = st.text_input("Full Naam", key="s_name")
         mobile = st.text_input("Mobile Number", key="s_mobile")
         cnic = st.text_input("CNIC Number", key="s_cnic")
         password = st.text_input("Password", type="password", key="s_pass")
