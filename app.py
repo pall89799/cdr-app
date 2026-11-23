@@ -1559,29 +1559,33 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
                     s = s[-11:]
         return s
 
-    def _make_call_type(raw_type, direction=""):
+        def _make_call_type(raw_type, direction=""):
         t = str(raw_type).strip().lower()
         d = str(direction).strip().lower()
-        if "data" in t or "gprs" in t: return "Data Out" if "out" in d or d == "outgoing" else "Data In"
+        if "data" in t or "gprs" in t or "data" in d: return "Data"
         if "sms" in t:
-            if d in ["incoming", "incomming"]:
+            if "incoming" in t or "incomming" in t or d in ["incoming", "incomming"]:
                 return "In SMS"
-            if "out" in t or "out" in d:
+            if "outgoing" in t or "outcomming" in t or "out" in t or "out" in d:
                 return "Out SMS"
-            return "SMS"
+            return "In SMS"
         if "call" in t or "voice" in t:
-            if d in ["incoming", "incomming"]:
+            if "incoming" in t or "incomming" in t or d in ["incoming", "incomming"]:
                 return "In Call"
-            if "out" in t or "out" in d or d in ["outgoing", "outcomming"]:
+            if "outgoing" in t or "outcomming" in t or "out" in t or "out" in d or d in ["outgoing", "outcomming"]:
                 return "Out Call"
-            return "Call"
-        if d in ["outgoing", "1"]:
+            return "In Call"
+        if t in ["incoming", "incomming", "in"]:
+            return "In Call"
+        if t in ["outgoing", "outcomming", "out"]:
+            return "Out Call"
+        if d in ["outgoing", "outcomming", "1"]:
             return "Out Call"
         if d in ["incoming", "incomming", "2"]:
             return "In Call"
         if d in ["internet", "0", "gprs"]:
-            return "GPRS"
-        return str(raw_type).strip()
+            return "Data"
+        return "In Call"
 
     def _read_cdr_file(f):
         lname = f.name.lower()
