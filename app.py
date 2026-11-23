@@ -121,8 +121,6 @@ div[data-testid="stFileUploader"] label p {{
 }}
 /* --- LOGIN PAGE BEAUTIFUL --- */
 .stApp {
-    background: linear-gradient(135deg, #E8F0FF 0%, #FFF2E6 100%) !important;
-}
 .stTextInput input {
     background-color: white !important;
     border-radius: 12px !important;
