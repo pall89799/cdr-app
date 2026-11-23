@@ -29,23 +29,16 @@ div[data-testid="stVerticalBlock"] > div:nth-child(2) div[data-testid="stHorizon
     padding: 12px 20px !important;
     box-shadow: 0px 4px 12px rgba(0,0,0,0.20) !important;
 }}
-/* Login / Signup Button - Final */
+/* Nechy waly 5 Tabs */
 div[data-testid="stTabs"] button[role="tab"] {{
-    background-color: white !important;
-    color: #1A2B4A !important;
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    padding: 10px 22px !important;
+    background-color: #F1F4F9 !important;
+    color: #555555 !important;
     border-radius: 12px !important;
-    border: 2px solid #D6E4FF !important;
-    margin-right: 8px !important;
+    padding: 8px 18px !important;
+    font-weight: 600 !important;
+    border: 1px solid #D9DEE8 !important;
 }}
-div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
-    background: linear-gradient(90deg, #1E6BFF, #FF7A00) !important;
-    color: white !important;
-    border: none !important;
-    box-shadow: 0 5px 15px rgba(255,122,0,0.35) !important;
-}}/* Jo Tab SELECT ho */
+/* Jo Tab SELECT ho */
 div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
     background-color: {active_color} !important;
     color: white !important;
@@ -126,58 +119,6 @@ div[data-testid="stFileUploader"] label p {{
     font-weight: 900 !important;
     font-size: 16px !important;
 }}
-/* --- LOGIN + SIGNUP FULL BEAUTIFUL --- */
-.stApp {{
-    background: linear-gradient(135deg, #E8F0FF 0%, #FFF2E6 100%) !important;
-}}
-.stTextInput input {{
-    background-color: white !important;
-    border-radius: 12px !important;
-    border: 2px solid #D6E4FF !important;
-    padding: 12px 15px !important;
-    font-size: 16px !important;
-}}
-.stButton > button {{
-    background: linear-gradient(90deg, #1E6BFF, #FF7A00) !important;
-    color: white !important;
-    font-size: 18px !important;
-    font-weight: 700 !important;
-    padding: 12px 40px !important;
-    border-radius: 12px !important;
-    border: none !important;
-    box-shadow: 0 5px 15px rgba(30,107,255,0.35) !important;
-    width: 100% !important;
-}}
-/* Login / Signup Button - Final */
-div[data-testid="stTabs"] button[role="tab"] {{
-    background-color: white !important;
-    color: #1A2B4A !important;
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    padding: 10px 22px !important;
-    border-radius: 12px !important;
-    border: 2px solid #D6E4FF !important;
-    margin-right: 8px !important;
-}}
-div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
-    background: linear-gradient(90deg, #1E6BFF, #FF7A00) !important;
-    color: white !important;
-    border: none !important;
-    box-shadow: 0 5px 15px rgba(255,122,0,0.35) !important;
-}}
-/* --- Table ke andar Oopar-Neeche wali Slide Bar - Pakki wali --- */
-div[data-testid="stDataFrame"] > div {{
-    max-height: 850px !important;
-    overflow-y: auto !important;
-    overflow-x: auto !important;
-}}
-div[data-testid="stDataFrame"] > div::-webkit-scrollbar-thumb {{
-    background: #1E6BFF !important;
-    border-radius: 10px !important;
-}}
-div[data-testid="stDataFrame"] > div::-webkit-scrollbar-track {{
-    background: #E8F0FF !important;
-}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -197,14 +138,14 @@ def hash_pass(p):
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
-    st.session_state.user = None   
-  
+    st.session_state.user = None
+
 # ===== SIRF LOGIN + SIGNUP + APPROVAL, BAS =====
 if not st.session_state.logged_in:
     st.title("🔐 CDR-BTS Login")
     tab1, tab2 = st.tabs(["Signup", "Login"])
     with tab1:
-        name = st.text_input("Full Naam", key="s_name")
+        name = st.text_input("Pura Naam", key="s_name")
         mobile = st.text_input("Mobile Number", key="s_mobile")
         cnic = st.text_input("CNIC Number", key="s_cnic")
         password = st.text_input("Password", type="password", key="s_pass")
@@ -230,13 +171,13 @@ if not st.session_state.logged_in:
         if st.button("Login"):
             res = supabase.table("users").select("*").eq("mobile", l_mobile).execute()
             if not res.data:
-                st.error("Account not found - Signup first")
+                st.error("Account nahi hai, pehle Signup karo")
             else:
                 u = res.data[0]
                 if u["password"] != hash_pass(l_pass):
-                    st.error("Wrong Password")
+                    st.error("Password ghalat hai")
                 elif u["status"] != "approved":
-                    st.error(f"Pending. Code {u['device_code']} Send to admin")
+                    st.error(f"Pending hai. Code {u['device_code']} Admin ko bhejo")
                 else:
                     st.session_state.logged_in = True
                     st.session_state.user = u
@@ -1971,10 +1912,8 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
             st.write(f"**Sheet 3 - Common B Party:** {len(common_b)}")
             st.write(f"**Sheet 4 - Common IMEI:** {len(common_i)}")
             st.write(f"**Sheet 5 - Common Location:** {len(common_l)} - Same Jagah + Same Date pe 2+ bande")
-            st.table(master.head(10))
-        if "common_1" in locals() and common_1 is not None and len(common_1) > 0:
-            show_page_table(common_1, "all_cdr_common_location")
-            
+            st.dataframe(master.head(10), use_container_width=True)
+            st.dataframe(common_l.head(10), use_container_width=True)
 
             # ---------- Download - 5 Sheets ----------
             output = io.BytesIO()
