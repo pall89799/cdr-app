@@ -167,14 +167,9 @@ div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
 }}
 /* --- Table ke andar Oopar-Neeche wali Slide Bar - Pakki wali --- */
 div[data-testid="stDataFrame"] > div {{
-    max-height: 500px !important;
-    overflow-y: scroll !important;
-    overflow-x: scroll !important;
-}}
-div[data-testid="stDataFrame"] > div::-webkit-scrollbar {{
-    width: 14px !important;
-    height: 14px !important;
-    display: block !important;
+    max-height: 850px !important;
+    overflow-y: auto !important;
+    overflow-x: auto !important;
 }}
 div[data-testid="stDataFrame"] > div::-webkit-scrollbar-thumb {{
     background: #1E6BFF !important;
