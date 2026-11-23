@@ -1995,7 +1995,9 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
             st.write(f"**Sheet 4 - Common IMEI:** {len(common_i)}")
             st.write(f"**Sheet 5 - Common Location:** {len(common_l)} - Same Jagah + Same Date pe 2+ bande")
             show_page_table(master, "all_cdr_master")
+        if "common_1" in locals() and common_1 is not None and len(common_1) > 0:
             show_page_table(common_1, "all_cdr_common_location")
+            
 
             # ---------- Download - 5 Sheets ----------
             output = io.BytesIO()
