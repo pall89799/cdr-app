@@ -217,13 +217,13 @@ if not st.session_state.logged_in:
         if st.button("Login"):
             res = supabase.table("users").select("*").eq("mobile", l_mobile).execute()
             if not res.data:
-                st.error("Account nahi hai, pehle Signup karo")
+                st.error("Account not found - Signup first")
             else:
                 u = res.data[0]
                 if u["password"] != hash_pass(l_pass):
-                    st.error("Password ghalat hai")
+                    st.error("Wrong Password")
                 elif u["status"] != "approved":
-                    st.error(f"Pending hai. Code {u['device_code']} Admin ko bhejo")
+                    st.error(f"Pending. Code {u['device_code']} Send to admin")
                 else:
                     st.session_state.logged_in = True
                     st.session_state.user = u
