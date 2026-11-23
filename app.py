@@ -1850,7 +1850,7 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
             _telenor = int(_net_counts.get("TELENOR", 0))
             _jazz = int(_net_counts.get("JAZZ", 0))
             _total = _zong + _ufone + _telenor + _jazz
-            st.markdown(f"""
+    st.markdown(f"""
     <style>
             .op-table {{ width:100%; border-collapse:separate; border-spacing:0; overflow:hidden; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.1); }}
             .op-table th {{ background:linear-gradient(90deg,#0f2027,#203a43,#2c5364); color:white; padding:14px; text-align:left; font-size:16px; }}
