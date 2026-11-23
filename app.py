@@ -199,30 +199,28 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
     st.session_state.user = None
     
-# --- سب ٹیبلز کے لیے ایک ہی Page والا Function ---
 def show_page_table(df, key, rows_per_page=50):
-    if key not in st.session_state:
-        st.session_state[key] = 1
-    total_pages = (len(df) + rows_per_page - 1) // rows_per_page
-    if st.session_state[key] > total_pages:
-        st.session_state[key] = 1
-    if st.session_state[key] < 1:
-        st.session_state[key] = 1
-    start = (st.session_state[key] - 1) * rows_per_page
-    end = start + rows_per_page
-    st.write(f"Showing {start+1} to {min(end, len(df))} of {len(df)} | Page {st.session_state[key]} / {total_pages}")
-    c1, c2, c3 = st.columns([1, 2, 1])
+    page_key = key + "_page"
+    if page_key not in st.session_state:
+        st.session_state[page_key] = 1
+    total_pages = max(1, (len(df) + rows_per_page - 1) // rows_per_page)
+    if st.session_state[page_key] > total_pages:
+        st.session_state[page_key] = 1
+    if st.session_state[page_key] < 1:
+        st.session_state[page_key] = 1
+    start = (st.session_state[page_key] - 1) * rows_per_page
+    end = min(start + rows_per_page, len(df))
+    st.write(f"Showing {start + 1} to {end} of {len(df)} | Page {st.session_state[page_key]} of {total_pages}")
+    st.dataframe(df.iloc[start:end], use_container_width=True)
+    c1, c2, _ = st.columns([1, 1, 4])
     with c1:
-        if st.button("⬅️ Previous", key=f"prev_{key}", use_container_width=True):
-            if st.session_state[key] > 1:
-                st.session_state[key] -= 1
-                st.rerun()
-    with c3:
-        if st.button("Next ➡️", key=f"next_{key}", use_container_width=True):
-            if st.session_state[key] < total_pages:
-                st.session_state[key] += 1
-                st.rerun()
-    st.dataframe(df.iloc[start:end], height=850, use_container_width=True)
+        if st.button("⬅️ Previous", key=f"prev_{key}", disabled=(st.session_state[page_key] <= 1)):
+            st.session_state[page_key] -= 1
+            st.rerun()
+    with c2:
+        if st.button("Next ➡️", key=f"next_{key}", disabled=(st.session_state[page_key] >= total_pages)):
+            st.session_state[page_key] += 1
+            st.rerun()
     
 # ===== SIRF LOGIN + SIGNUP + APPROVAL, BAS =====
 if not st.session_state.logged_in:
