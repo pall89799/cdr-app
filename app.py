@@ -1559,7 +1559,7 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
                     s = s[-11:]
         return s
 
-        def _make_call_type(raw_type, direction=""):
+    def _make_call_type(raw_type, direction=""):
         t = str(raw_type).strip().lower()
         d = str(direction).strip().lower()
         if "data" in t or "gprs" in t or "data" in d: return "Data"
