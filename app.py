@@ -120,15 +120,15 @@ div[data-testid="stFileUploader"] label p {{
     font-size: 16px !important;
 }}
 /* --- LOGIN PAGE BEAUTIFUL --- */
-.stApp {
-    .stTextInput input {
+    .stApp {
+.stTextInput input {
     background-color: white !important;
     border-radius: 12px !important;
     border: 2px solid #D6E4FF !important;
     padding: 12px 15px !important;
     font-size: 16px !important;
 }
-    .stButton > button {
+.stButton > button {
     background: linear-gradient(90deg, #1E6BFF, #FF7A00) !important;
     color: white !important;
     font-size: 18px !important;
