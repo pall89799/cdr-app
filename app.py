@@ -1859,7 +1859,7 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
             .badge {{ padding:6px 14px; border-radius:20px; color:white; font-size:14px; }}
     </style>
             <table class="op-table">
-              <tr><th>Network</th><th style="text-align:right;">Total CDRs</th></tr>
+              <tr><th>Network</th><th style="text-align:center;">Total CDRs</th></tr>
               <tr><td>🟢 <span class="badge" style="background:#00a651;">ZONG</span> &nbsp; Zong Total CDRs</td><td style="text-align:right;">{_zong:,}</td></tr>
               <tr style="background:#f8f9fa;"><td>🟠 <span class="badge" style="background:#ff6600;">UFONE</span> &nbsp; Ufone Total CDRs</td><td style="text-align:right;">{_ufone:,}</td></tr>
               <tr><td>🔵 <span class="badge" style="background:#0070d1;">TELENOR</span> &nbsp; Telenor Total CDRs</td><td style="text-align:right;">{_telenor:,}</td></tr>
