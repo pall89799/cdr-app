@@ -1,3 +1,6 @@
+import os, ssl, httpx
+ssl._create_default_https_context = ssl._create_unverified_context
+os.environ["PYTHONHTTPSVERIFY"] = "0"
 import streamlit as st
 st.set_page_config(page_title="BTS Analyser", layout="wide")
 
@@ -132,7 +135,8 @@ from openpyxl.styles import PatternFill, Font, Alignment
 
 SUPABASE_URL = "https://qctbnewntgzeagfdafgx.supabase.co"
 SUPABASE_KEY = "sb_publishable_JvfMI_5erJ88oNY8Lvi1cw_30WNW4xx"
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+from supabase import ClientOptions
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY, options=ClientOptions(httpx_client=httpx.Client(verify=False)))
 
 ADMIN_MOBILE = "03000508387"
 
