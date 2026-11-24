@@ -328,7 +328,22 @@ else:
 if "sub_idx" not in st.session_state:
     st.session_state.sub_idx = 0
 
-btn_bg = "#1E6BFF" if st.session_state.mode == "CDR" else "#FF7A00"
+# Har button ka alag aadha-aadha colour - Gradient
+cdr_colors = [
+    "linear-gradient(135deg, #16a34a 50%, #1e3a8a 50%)",  # Ufone - Green + Navy
+    "linear-gradient(135deg, #dc2626 50%, #f97316 50%)",  # Jazz - Red + Orange
+    "linear-gradient(135deg, #2563eb 50%, #38bdf8 50%)",  # Telenor - Blue + Sky
+    "linear-gradient(135deg, #7c3aed 50%, #ec4899 50%)",  # Zong - Purple + Pink
+    "linear-gradient(135deg, #1e3a8a 50%, #7c3aed 50%)",  # All CDR - Navy + Purple
+]
+bts_colors = [
+    "linear-gradient(135deg, #16a34a 50%, #7c3aed 50%)",  # Ufone BTS
+    "linear-gradient(135deg, #dc2626 50%, #7c3aed 50%)",  # Jazz BTS
+    "linear-gradient(135deg, #2563eb 50%, #7c3aed 50%)",  # Telenor BTS
+    "linear-gradient(135deg, #7c3aed 50%, #ec4899 50%)",  # Zong BTS
+    "linear-gradient(135deg, #1e3a8a 50%, #f97316 50%)",  # All BTS
+]
+btn_colors = cdr_colors if st.session_state.mode == "CDR" else bts_colors
 
 cols = st.columns(5)
 for i, name in enumerate(_names):
