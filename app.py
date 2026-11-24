@@ -210,7 +210,7 @@ if not st.session_state.logged_in:
         if st.button("Login"):
             res = supabase.table("users").select("*").eq("mobile", l_mobile).execute()
             if not res.data:
-                st.error("Account nahi hai, pehle Signup karo")
+                st.error("Account not found, Signup First")
             else:
                 u = res.data[0]
                 if u["password"] != hash_pass(l_pass):
@@ -1963,4 +1963,4 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
                 common_i.to_excel(writer, index=False, sheet_name="Common IMEI")
                 common_l.to_excel(writer, index=False, sheet_name="Common Location")
                 blue_fill = PatternFill(start_color="4472C4", end_color="4472C4", fill_type="solid")
-            st.download_button("📥 Master File Download Karo - 5 Sheets", data=output.getvalue(), file_name="Master_File_All_CDR.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            st.download_button("📥 Download Master File - 5 Sheets", data=output.getvalue(), file_name="Master_File_All_CDR.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
