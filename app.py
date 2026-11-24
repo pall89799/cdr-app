@@ -1,6 +1,3 @@
-import os, ssl, httpx
-ssl._create_default_https_context = ssl._create_unverified_context
-os.environ["PYTHONHTTPSVERIFY"] = "0"
 import streamlit as st
 st.set_page_config(page_title="BTS Analyser", layout="wide")
 
@@ -8,22 +5,65 @@ st.set_page_config(page_title="BTS Analyser", layout="wide")
 if "mode" not in st.session_state:
     st.session_state.mode = "CDR"
 
-active_color = "#0F2A44"
+active_color = "#1E6BFF" if st.session_state.mode == "CDR" else "#FF7A00"
 
 st.markdown(f"""
 <style>
-
+/* Pehla button (CDR) hamesha NEELA */
+div[data-testid="stVerticalBlock"] > div:nth-child(2) div[data-testid="stHorizontalBlock"] > div:nth-child(1) div[data-testid="stButton"] > button {{
+    background: linear-gradient(90deg, #1E6BFF, #00C6FF) !important;
+    color: white !important;
+    border-radius: 12px !important;
+    font-weight: bold !important;
+    border: none !important;
+    padding: 12px 20px !important;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.20) !important;
+}}
+/* Dusra button (BTS) hamesha ORANGE */
+div[data-testid="stVerticalBlock"] > div:nth-child(2) div[data-testid="stHorizontalBlock"] > div:nth-child(2) div[data-testid="stButton"] > button {{
+    background: linear-gradient(90deg, #FF7A00, #FFB800) !important;
+    color: white !important;
+    border-radius: 12px !important;
+    font-weight: bold !important;
+    border: none !important;
+    padding: 12px 20px !important;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.20) !important;
+}}
+/* Login / Signup Button - Final */
+div[data-testid="stTabs"] button[role="tab"] {{
+    background-color: white !important;
+    color: #1A2B4A !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    padding: 10px 22px !important;
+    border-radius: 12px !important;
+    border: 2px solid #D6E4FF !important;
+    margin-right: 8px !important;
+}}
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
+    background: linear-gradient(90deg, #1E6BFF, #FF7A00) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 5px 15px rgba(255,122,0,0.35) !important;
+}}/* Jo Tab SELECT ho */
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
+    background-color: {active_color} !important;
+    color: white !important;
+    border: 1px solid {active_color} !important;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.25) !important;
+    transform: scale(1.05) !important;
+}}
 div[data-testid="stDateInput"] input,
 div[data-testid="stTimeInput"] input {{
-    background: linear-gradient(135deg, #E8EEF3, #ffffff) !important;
-    border: 2px solid #0F2A44 !important;
+    background: linear-gradient(135deg, #e0f2fe, #ffffff) !important;
+    border: 2px solid #38bdf8 !important;
     border-radius: 12px !important;
     font-weight: 600 !important;
     box-shadow: 0 4px 10px rgba(56,189,248,0.25) !important;
 }}
 
 div[data-testid="stCheckbox"] label {{
-    background: linear-gradient(135deg, #0F2A44, #5B2C6F) !important;
+    background: linear-gradient(135deg, #f59e0b, #ef4444) !important;
     color: white !important;
     padding: 10px 16px !important;
     border-radius: 12px !important;
@@ -108,22 +148,35 @@ div[data-testid="stFileUploader"] label p {{
     box-shadow: 0 5px 15px rgba(30,107,255,0.35) !important;
     width: 100% !important;
 }}
-/* Login / Signup wale Button */
-button[role="tab"] {{
+/* Login / Signup Button - Final */
+div[data-testid="stTabs"] button[role="tab"] {{
     background-color: white !important;
     color: #1A2B4A !important;
     font-size: 16px !important;
     font-weight: 700 !important;
-    padding: 10px 20px !important;
+    padding: 10px 22px !important;
     border-radius: 12px !important;
     border: 2px solid #D6E4FF !important;
     margin-right: 8px !important;
 }}
-button[role="tab"][aria-selected="true"] {{
+div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{
     background: linear-gradient(90deg, #1E6BFF, #FF7A00) !important;
     color: white !important;
     border: none !important;
     box-shadow: 0 5px 15px rgba(255,122,0,0.35) !important;
+}}
+/* --- Table ke andar Oopar-Neeche wali Slide Bar - Pakki wali --- */
+div[data-testid="stDataFrame"] > div {{
+    max-height: 850px !important;
+    overflow-y: auto !important;
+    overflow-x: auto !important;
+}}
+div[data-testid="stDataFrame"] > div::-webkit-scrollbar-thumb {{
+    background: #1E6BFF !important;
+    border-radius: 10px !important;
+}}
+div[data-testid="stDataFrame"] > div::-webkit-scrollbar-track {{
+    background: #E8F0FF !important;
 }}
 </style>
 """, unsafe_allow_html=True)
@@ -135,8 +188,7 @@ from openpyxl.styles import PatternFill, Font, Alignment
 
 SUPABASE_URL = "https://qctbnewntgzeagfdafgx.supabase.co"
 SUPABASE_KEY = "sb_publishable_JvfMI_5erJ88oNY8Lvi1cw_30WNW4xx"
-from supabase import ClientOptions
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY, options=ClientOptions(httpx_client=httpx.Client(verify=False)))
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 ADMIN_MOBILE = "03000508387"
 
@@ -145,14 +197,14 @@ def hash_pass(p):
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
-    st.session_state.user = None
-
+    st.session_state.user = None   
+    
 # ===== SIRF LOGIN + SIGNUP + APPROVAL, BAS =====
 if not st.session_state.logged_in:
     st.title("🔐 CDR-BTS Login")
     tab1, tab2 = st.tabs(["Signup", "Login"])
     with tab1:
-        name = st.text_input("Pura Naam", key="s_name")
+        name = st.text_input("Full Naam", key="s_name")
         mobile = st.text_input("Mobile Number", key="s_mobile")
         cnic = st.text_input("CNIC Number", key="s_cnic")
         password = st.text_input("Password", type="password", key="s_pass")
@@ -178,13 +230,13 @@ if not st.session_state.logged_in:
         if st.button("Login"):
             res = supabase.table("users").select("*").eq("mobile", l_mobile).execute()
             if not res.data:
-                st.error("Account nahi hai, pehle Signup karo")
+                st.error("Account not found - Signup first")
             else:
                 u = res.data[0]
                 if u["password"] != hash_pass(l_pass):
-                    st.error("Password ghalat hai")
+                    st.error("Wrong Password")
                 elif u["status"] != "approved":
-                    st.error(f"Pending hai. Code {u['device_code']} Admin ko bhejo")
+                    st.error(f"Pending. Code {u['device_code']} Send to admin")
                 else:
                     st.session_state.logged_in = True
                     st.session_state.user = u
@@ -332,22 +384,7 @@ else:
 if "sub_idx" not in st.session_state:
     st.session_state.sub_idx = 0
 
-# Har button ka alag aadha-aadha colour - Gradient
-cdr_colors = [
-    "linear-gradient(135deg, #16a34a 50%, #1e3a8a 50%)",  # Ufone - Green + Navy
-    "linear-gradient(135deg, #dc2626 50%, #f97316 50%)",  # Jazz - Red + Orange
-    "linear-gradient(135deg, #2563eb 50%, #38bdf8 50%)",  # Telenor - Blue + Sky
-    "linear-gradient(135deg, #7c3aed 50%, #ec4899 50%)",  # Zong - Purple + Pink
-    "linear-gradient(135deg, #1e3a8a 50%, #7c3aed 50%)",  # All CDR - Navy + Purple
-]
-bts_colors = [
-    "linear-gradient(135deg, #16a34a 50%, #7c3aed 50%)",  # Ufone BTS
-    "linear-gradient(135deg, #dc2626 50%, #7c3aed 50%)",  # Jazz BTS
-    "linear-gradient(135deg, #2563eb 50%, #7c3aed 50%)",  # Telenor BTS
-    "linear-gradient(135deg, #7c3aed 50%, #ec4899 50%)",  # Zong BTS
-    "linear-gradient(135deg, #1e3a8a 50%, #f97316 50%)",  # All BTS
-]
-btn_colors = cdr_colors if st.session_state.mode == "CDR" else bts_colors
+btn_bg = "#1E6BFF" if st.session_state.mode == "CDR" else "#FF7A00"
 
 cols = st.columns(5)
 for i, name in enumerate(_names):
@@ -1934,8 +1971,10 @@ if selected_tab == 4 and st.session_state.mode == "CDR":
             st.write(f"**Sheet 3 - Common B Party:** {len(common_b)}")
             st.write(f"**Sheet 4 - Common IMEI:** {len(common_i)}")
             st.write(f"**Sheet 5 - Common Location:** {len(common_l)} - Same Jagah + Same Date pe 2+ bande")
-            st.dataframe(master.head(10), use_container_width=True)
-            st.dataframe(common_l.head(10), use_container_width=True)
+            st.dataframe(common_a)
+        if "common_1" in locals() and common_1 is not None and len(common_1) > 0:
+            show_page_table(common_1, "all_cdr_common_location")
+            
 
             # ---------- Download - 5 Sheets ----------
             output = io.BytesIO()
