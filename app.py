@@ -184,7 +184,7 @@ if not st.session_state.logged_in:
     st.title("🔐 CDR-BTS Login")
     tab1, tab2 = st.tabs(["Signup", "Login"])
     with tab1:
-        name = st.text_input("Pura Naam", key="s_name")
+        name = st.text_input("Full Name", key="s_name")
         mobile = st.text_input("Mobile Number", key="s_mobile")
         cnic = st.text_input("CNIC Number", key="s_cnic")
         password = st.text_input("Password", type="password", key="s_pass")
@@ -202,7 +202,7 @@ if not st.session_state.logged_in:
                         "password": hash_pass(password),
                         "device_code": device_code, "status": "pending"
                     }).execute()
-                    st.success("Account ban gaya! Code Admin ko bhejo")
+                    st.success("Account Created! Send Code to Admin")
                     st.code(device_code)
     with tab2:
         l_mobile = st.text_input("Mobile Number", key="l_mobile")
@@ -214,9 +214,9 @@ if not st.session_state.logged_in:
             else:
                 u = res.data[0]
                 if u["password"] != hash_pass(l_pass):
-                    st.error("Password ghalat hai")
+                    st.error("Wrong Password")
                 elif u["status"] != "approved":
-                    st.error(f"Pending hai. Code {u['device_code']} Admin ko bhejo")
+                    st.error(f"Pending. Code {u['device_code']} send to admin")
                 else:
                     st.session_state.logged_in = True
                     st.session_state.user = u
