@@ -1254,6 +1254,10 @@ def build_cdr_telenor_output(raw_df):
             ct.append("OSMS")
         elif h == "OUTGOING" and o == "CALL":
             ct.append("OG")
+        elif h == "INCOMING" and o == "VOLTE":
+            ct.append("In Call 4G")
+        elif h == "OUTGOING" and o == "VOLTE":
+            ct.append("Out Call 4G")            
         else:
             ct.append(o)
     df["Call Type"] = ct
